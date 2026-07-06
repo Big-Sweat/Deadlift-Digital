@@ -1,0 +1,87 @@
+{
+  ".claude/launch.json": {
+    "mtime": 1783374157.8435612,
+    "ast_hash": "1d1bc93b407dfb9f05c9e4661d859d3e",
+    "semantic_hash": "1d1bc93b407dfb9f05c9e4661d859d3e"
+  },
+  ".claude/settings.local.json": {
+    "mtime": 1783375227.1657188,
+    "ast_hash": "d3a5b49fe6100c8b43ba80f203ffec66",
+    "semantic_hash": "d3a5b49fe6100c8b43ba80f203ffec66"
+  },
+  "claude-code-handoff/doc-page.js": {
+    "mtime": 1783372390.2151892,
+    "ast_hash": "6cde27f18f44236bae9afdb0f13fe028",
+    "semantic_hash": "6cde27f18f44236bae9afdb0f13fe028"
+  },
+  "claude-code-handoff/image-slot.js": {
+    "mtime": 1783372390.2212641,
+    "ast_hash": "43feeecd23d9aa66cc04b5f3bfb654e2",
+    "semantic_hash": "43feeecd23d9aa66cc04b5f3bfb654e2"
+  },
+  "claude-code-handoff/ios-frame.jsx": {
+    "mtime": 1783372390.2262642,
+    "ast_hash": "2663a8fee17b7b6f58bf4ba48a26cc60",
+    "semantic_hash": "2663a8fee17b7b6f58bf4ba48a26cc60"
+  },
+  "claude-code-handoff/support.js": {
+    "mtime": 1783372390.2327752,
+    "ast_hash": "be3bca35da63e08a5a41206ae5711d25",
+    "semantic_hash": "be3bca35da63e08a5a41206ae5711d25"
+  },
+  "main.js": {
+    "mtime": 1783374129.5313635,
+    "ast_hash": "0414813676009ada067f24a079c667bd",
+    "semantic_hash": "0414813676009ada067f24a079c667bd"
+  },
+  "README.md": {
+    "mtime": 1783374604.408426,
+    "ast_hash": "ce729554485c188621f310574abf770c",
+    "semantic_hash": "ce729554485c188621f310574abf770c"
+  },
+  "claude-code-handoff/CHAT-LOG.md": {
+    "mtime": 1783372390.1644118,
+    "ast_hash": "d14b55c8389ff4492085243d7dfe5e0a",
+    "semantic_hash": "d14b55c8389ff4492085243d7dfe5e0a"
+  },
+  "claude-code-handoff/Deadlift Digital Logos.dc.html": {
+    "mtime": 1783372390.1766317,
+    "ast_hash": "f0b8362cd0d011da576e522881c48f6e",
+    "semantic_hash": "f0b8362cd0d011da576e522881c48f6e"
+  },
+  "claude-code-handoff/Deadlift Digital Mobile.dc.html": {
+    "mtime": 1783372390.1831424,
+    "ast_hash": "008653d0fb3456e8786a369b06e01497",
+    "semantic_hash": "008653d0fb3456e8786a369b06e01497"
+  },
+  "claude-code-handoff/Deadlift Digital Site (standalone).html": {
+    "mtime": 1783372390.1906512,
+    "ast_hash": "337f7d5f460f5f767de97cc9e06ef4a2",
+    "semantic_hash": "337f7d5f460f5f767de97cc9e06ef4a2"
+  },
+  "claude-code-handoff/Deadlift Digital Website v2.dc.html": {
+    "mtime": 1783372390.195653,
+    "ast_hash": "b4eb31d95d331cbbd7aba9cfb613d1b3",
+    "semantic_hash": "b4eb31d95d331cbbd7aba9cfb613d1b3"
+  },
+  "claude-code-handoff/Deadlift Digital Website.dc.html": {
+    "mtime": 1783372390.200667,
+    "ast_hash": "d2b523899a5b065ce4bb3dae0af9f4cf",
+    "semantic_hash": "d2b523899a5b065ce4bb3dae0af9f4cf"
+  },
+  "claude-code-handoff/Marketing Playbook.dc.html": {
+    "mtime": 1783372390.2056727,
+    "ast_hash": "e13a14f7ce0e27bbefe1be0db5d3ef60",
+    "semantic_hash": "e13a14f7ce0e27bbefe1be0db5d3ef60"
+  },
+  "claude-code-handoff/README.md": {
+    "mtime": 1783372390.2101836,
+    "ast_hash": "e1ce3245f92844ae3ba57553e458c0d4",
+    "semantic_hash": "e1ce3245f92844ae3ba57553e458c0d4"
+  },
+  "index.html": {
+    "mtime": 1783374134.8594856,
+    "ast_hash": "0464e24cdc05276bcb17b65119c3a91a",
+    "semantic_hash": "0464e24cdc05276bcb17b65119c3a91a"
+  }
+}

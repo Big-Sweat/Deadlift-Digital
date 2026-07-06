@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Space+Grotesk:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+body{margin:0;background:#17181a;color:#f6f4f0;font-family:'Space Grotesk',system-ui,sans-serif}
+a{color:#f6f4f0;text-decoration:none}
+a:hover{color:#e85d26}
+@keyframes dd-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes dd-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+</style>
+</helmet>
+
+<div data-screen-label="Deadlift Digital website" style="background:#17181a;min-height:100vh">
+
+  <!-- NAV -->
+  <nav style="display:flex;align-items:center;justify-content:space-between;padding:22px 48px;border-bottom:1px solid rgba(246,244,240,.12);position:sticky;top:0;background:rgba(23,24,26,.92);backdrop-filter:blur(8px);z-index:50">
+    <a href="#top" style="display:flex;align-items:center;gap:10px">
+      <svg width="28" height="28" viewBox="0 0 130 130"><circle cx="65" cy="65" r="57" fill="none" stroke="#f6f4f0" stroke-width="10"></circle><circle cx="65" cy="65" r="16" fill="#e85d26"></circle></svg>
+      <span style="font:900 13px 'Archivo Black',sans-serif;letter-spacing:0.5px">DEADLIFT DIGITAL</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:28px;font:400 11px 'IBM Plex Mono',monospace;letter-spacing:1.5px">
+      <a href="#about" style="color:rgba(246,244,240,.7)">ABOUT</a>
+      <a href="#services" style="color:rgba(246,244,240,.7)">SERVICES</a>
+      <a href="#work" style="color:rgba(246,244,240,.7)">WORK</a>
+      <a href="#why" style="color:rgba(246,244,240,.7)">WHY US</a>
+      <a href="#contact" style="padding:10px 16px;background:#e85d26;color:#fff;border-radius:4px;font-weight:500" style-hover="background:#f06d38;color:#fff">FREE TEARDOWN</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="top" style="position:relative;overflow:hidden;padding:90px 48px 110px;min-height:520px;box-sizing:border-box">
+    <div style="position:absolute;right:-260px;top:50%;transform:translateY(-50%);width:760px;height:760px;animation:{{ plateSpinAnim }}">
+      <svg width="760" height="760" viewBox="0 0 400 400" aria-label="weight plate">
+        <circle cx="200" cy="200" r="192" fill="#1d1e21" stroke="#f6f4f0" stroke-width="10"></circle>
+        <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(246,244,240,.35)" stroke-width="2"></circle>
+        <circle cx="200" cy="200" r="112" fill="none" stroke="rgba(246,244,240,.2)" stroke-width="1.5"></circle>
+        <g stroke="rgba(246,244,240,.28)" stroke-width="3">
+          <line x1="200" y1="8" x2="200" y2="26"></line><line x1="200" y1="374" x2="200" y2="392"></line>
+          <line x1="8" y1="200" x2="26" y2="200"></line><line x1="374" y1="200" x2="392" y2="200"></line>
+          <line x1="64" y1="64" x2="77" y2="77"></line><line x1="323" y1="323" x2="336" y2="336"></line>
+          <line x1="336" y1="64" x2="323" y2="77"></line><line x1="77" y1="323" x2="64" y2="336"></line>
+        </g>
+        <defs><path id="dd-ring" d="M 200,200 m -131,0 a 131,131 0 1,1 262,0 a 131,131 0 1,1 -262,0"></path></defs>
+        <text style="font:600 17px 'IBM Plex Mono',monospace;letter-spacing:7px" fill="rgba(246,244,240,.55)"><textPath href="#dd-ring">DEADLIFT DIGITAL · WEBSITES THAT PULL WEIGHT · EST 2026 ·</textPath></text>
+        <circle cx="200" cy="200" r="46" fill="#e85d26"></circle>
+        <circle cx="200" cy="200" r="46" fill="none" stroke="#17181a" stroke-width="4"></circle>
+      </svg>
+    </div>
+    <div style="position:relative;max-width:720px">
+      <div style="font:400 12px 'IBM Plex Mono',monospace;letter-spacing:3px;color:#e85d26;margin-bottom:22px">/ WEB STUDIO FOR SMALL BUSINESS</div>
+      <h1 style="font:900 76px/0.98 'Archivo Black',sans-serif;letter-spacing:-2px;margin:0">Deadlift<span style="color:#e85d26">®</span><br>Digital</h1>
+      <p style="font:300 22px/1.5 'Space Grotesk',sans-serif;color:rgba(246,244,240,.75);margin:26px 0 0;max-width:460px">Your website should pull its weight. We build sites for small businesses that look established and win customers — fixed price, two weeks, no jargon.</p>
+      <div style="display:flex;gap:14px;margin-top:36px">
+        <a href="#contact" style="padding:15px 26px;background:#e85d26;color:#fff;border-radius:5px;font:600 14px 'Space Grotesk',sans-serif" style-hover="background:#f06d38;color:#fff">Get a free teardown</a>
+        <a href="#work" style="padding:15px 26px;border:1px solid rgba(246,244,240,.3);border-radius:5px;font:600 14px 'Space Grotesk',sans-serif" style-hover="border-color:#e85d26">See the work</a>
+      </div>
+    </div>
+    <div style="position:absolute;left:48px;bottom:28px;font:400 10px 'IBM Plex Mono',monospace;letter-spacing:2px;color:rgba(246,244,240,.4)">SCROLL DOWN TO EXPLORE ↓</div>
+  </header>
+
+  <!-- MARQUEE -->
+  <sc-if value="{{ showMarquee }}" hint-placeholder-val="{{ true }}">
+    <div style="overflow:hidden;border-top:1px solid rgba(246,244,240,.12);border-bottom:1px solid rgba(246,244,240,.12);background:#e85d26;padding:14px 0">
+      <div style="display:flex;width:max-content;animation:dd-marquee 28s linear infinite;white-space:nowrap">
+        <span style="font:900 18px 'Archivo Black',sans-serif;color:#17181a;letter-spacing:1px">WE DO THE HEAVY LIFTING&nbsp;&nbsp;·&nbsp;&nbsp;YOU RUN YOUR BUSINESS&nbsp;&nbsp;·&nbsp;&nbsp;WE DO THE HEAVY LIFTING&nbsp;&nbsp;·&nbsp;&nbsp;YOU RUN YOUR BUSINESS&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+        <span style="font:900 18px 'Archivo Black',sans-serif;color:#17181a;letter-spacing:1px">WE DO THE HEAVY LIFTING&nbsp;&nbsp;·&nbsp;&nbsp;YOU RUN YOUR BUSINESS&nbsp;&nbsp;·&nbsp;&nbsp;WE DO THE HEAVY LIFTING&nbsp;&nbsp;·&nbsp;&nbsp;YOU RUN YOUR BUSINESS&nbsp;&nbsp;·&nbsp;&nbsp;</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ABOUT + STATS -->
+  <section id="about" style="padding:100px 48px;max-width:1200px;margin:0 auto;box-sizing:border-box">
+    <div style="font:400 12px 'IBM Plex Mono',monospace;letter-spacing:3px;color:#e85d26;margin-bottom:20px">/ ABOUT US</div>
+    <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:start">
+      <h2 style="font:900 42px/1.1 'Archivo Black',sans-serif;letter-spacing:-1px;margin:0">A web studio for people who'd rather run their business than fight a website builder.</h2>
+      <p style="font:400 16px/1.7 'Space Grotesk',sans-serif;color:rgba(246,244,240,.7);margin:6px 0 0">We work with contractors, gyms, salons, clinics, restaurants — any small business that needs to look established online and turn visitors into calls and bookings. No templates dressed up as custom. No agency retainers. Just heavy-duty websites, shipped fast.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(246,244,240,.12);border:1px solid rgba(246,244,240,.12);margin-top:70px">
+      <div style="background:#17181a;padding:32px 26px"><div style="font:900 44px 'Archivo Black',sans-serif;color:#e85d26">14</div><div style="font:400 11px 'IBM Plex Mono',monospace;letter-spacing:2px;color:rgba(246,244,240,.55);margin-top:8px">DAYS, KICKOFF TO LAUNCH</div></div>
+      <div style="background:#17181a;padding:32px 26px"><div style="font:900 44px 'Archivo Black',sans-serif;color:#f6f4f0">1</div><div style="font:400 11px 'IBM Plex Mono',monospace;letter-spacing:2px;color:rgba(246,244,240,.55);margin-top:8px">FIXED PRICE, NO SURPRISES</div></div>
+      <div style="background:#17181a;padding:32px 26px"><div style="font:900 44px 'Archivo Black',sans-serif;color:#f6f4f0">100%</div><div style="font:400 11px 'IBM Plex Mono',monospace;letter-spacing:2px;color:rgba(246,244,240,.55);margin-top:8px">BUILT FOR MOBILE FIRST</div></div>
+      <div style="background:#17181a;padding:32px 26px"><div style="font:900 44px 'Archivo Black',sans-serif;color:#e85d26">0</div><div style="font:400 11px 'IBM Plex Mono',monospace;letter-spacing:2px;color:rgba(246,244,240,.55);margin-top:8px">JARGON, GUARANTEED</div></div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" style="padding:100px 48px;background:#f6f4f0;color:#17181a">
+    <div style="max-width:1200px;margin:0 auto">
+      <div style="font:400 12px 'IBM Plex Mono',monospace;letter-spacing:3px;color:#e85d26;margin-bottom:20px">/ OUR SERVICES</div>
+      <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:start;margin-bottom:60px">
+        <h2 style="font:900 42px/1.1 'Archivo Black',sans-serif;letter-spacing:-1px;margin:0">Everything your business needs online</h2>
+        <p style="font:400 16px/1.7 'Space Grotesk',sans-serif;color:rgba(23,24,26,.65);margin:6px 0 0;max-width:480px">From a free teardown of what you have today to a site that's launched, found on Google, and maintained — one studio, start to finish.</p>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <sc-for list="{{ services }}" as="s" hint-placeholder-count="5">
+          <div style="display:grid;grid-template-columns:80px 1fr 1.6fr;gap:30px;align-items:baseline;padding:34px 0;border-top:1px solid rgba(23,24,26,.15)" style-hover="background:rgba(232,93,38,.05)">
+            <div style="font:900 30px 'Archivo Black',sans-serif;color:#e85d26">{{ s.num }}</div>
+            <div style="font:600 22px 'Space Grotesk',sans-serif;letter-spacing:-0.3px">{{ s.name }}</div>
+            <div style="font:400 15px/1.65 'Space Grotesk',sans-serif;color:rgba(23,24,26,.65)">{{ s.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section id="work" style="padding:100px 48px;max-width:1200px;margin:0 auto;box-sizing:border-box">
+    <div style="font:400 12px 'IBM Plex Mono',monospace;letter-spacing:3px;color:#e85d26;margin-bottom:20px">/ THE WORK</div>
+    <h2 style="font:900 42px/1.1 'Archivo Black',sans-serif;letter-spacing:-1px;margin:0 0 50px">Recent builds</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <image-slot id="work-1" style="width:100%;height:260px;background:#f6f4f0;border-radius:8px" shape="rounded" radius="8" placeholder="Drop a screenshot of a recent build"></image-slot>
+        <div style="font:600 16px 'Space Grotesk',sans-serif">Project name</div>
+        <div style="font:400 11px 'IBM Plex Mono',monospace;letter-spacing:2px;color:rgba(246,244,240,.5)">INDUSTRY · WHAT WE BUILT</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <image-slot id="work-2" style="width:100%;height:260px;background:#f6f4f0;border-radius:8px" shape="rounded" radius="8" placeholder="Drop a screenshot of a recent build"></image-slot>
+        <div style="font:600 16px 'Space Grotesk',sans-serif">Project name</div>
+        <div style="font:400 11px 'IBM Plex Mono',monospace;letter-spacing:2px;color:rgba(246,244,240,.5)">INDUSTRY · WHAT WE BUILT</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <image-slot id="work-3" style="width:100%;height:260px;background:#f6f4f0;border-radius:8px" shape="rounded" radius="8" placeholder="Drop a screenshot of a recent build"></image-slot>
+        <div style="font:600 16px 'Space Grotesk',sans-serif">Project name</div>
+        <div style="font:400 11px 'IBM Plex Mono',monospace;letter-spacing:2px;color:rgba(246,244,240,.5)">INDUSTRY · WHAT WE BUILT</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section id="why" style="padding:100px 48px;border-top:1px solid rgba(246,244,240,.12)">
+    <div style="max-width:1200px;margin:0 auto">
+      <div style="font:400 12px 'IBM Plex Mono',monospace;letter-spacing:3px;color:#e85d26;margin-bottom:20px">/ WHY US</div>
+      <h2 style="font:900 42px/1.1 'Archivo Black',sans-serif;letter-spacing:-1px;margin:0 0 60px">Why work with<br>Deadlift<span style="color:#e85d26">®</span> Digital</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(246,244,240,.12);border:1px solid rgba(246,244,240,.12)">
+        <sc-for list="{{ reasons }}" as="r" hint-placeholder-count="6">
+          <div style="background:#17181a;padding:36px 30px;display:flex;flex-direction:column;gap:14px">
+            <div style="font:500 12px 'IBM Plex Mono',monospace;color:#e85d26">{{ r.num }}</div>
+            <div style="font:600 19px 'Space Grotesk',sans-serif;letter-spacing:-0.3px">{{ r.title }}</div>
+            <div style="font:400 14px/1.65 'Space Grotesk',sans-serif;color:rgba(246,244,240,.6)">{{ r.desc }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section style="padding:110px 48px;background:#f6f4f0;color:#17181a">
+    <div style="max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:60px;align-items:center">
+      <div>
+        <div style="font:400 12px 'IBM Plex Mono',monospace;letter-spacing:3px;color:#e85d26;margin-bottom:22px">/ BUILT TO PULL WEIGHT</div>
+        <p style="font:900 32px/1.25 'Archivo Black',sans-serif;letter-spacing:-0.5px;margin:0">"A website isn't a brochure. It's an employee that never sleeps. Ours show up, do the work, and win you customers."</p>
+        <div style="display:flex;align-items:center;gap:14px;margin-top:34px">
+          <image-slot id="founder" style="width:56px;height:56px" shape="circle" placeholder="Photo"></image-slot>
+          <div>
+            <div style="font:600 15px 'Space Grotesk',sans-serif">Jake Kanning</div>
+            <div style="font:400 10px 'IBM Plex Mono',monospace;letter-spacing:2px;color:rgba(23,24,26,.55)">FOUNDER, DEADLIFT DIGITAL</div>
+          </div>
+        </div>
+      </div>
+      <svg width="180" height="180" viewBox="0 0 130 130" aria-label="plate mark" style="flex:none">
+        <circle cx="65" cy="65" r="60" fill="none" stroke="#17181a" stroke-width="7"></circle>
+        <circle cx="65" cy="65" r="43" fill="none" stroke="#17181a" stroke-width="2"></circle>
+        <circle cx="65" cy="65" r="14" fill="#e85d26"></circle>
+      </svg>
+    </div>
+  </section>
+
+  <!-- CONTACT / FOOTER -->
+  <footer id="contact" style="padding:110px 48px 40px">
+    <div style="max-width:1200px;margin:0 auto">
+      <div style="font:400 12px 'IBM Plex Mono',monospace;letter-spacing:3px;color:#e85d26;margin-bottom:22px">/ GET IN TOUCH</div>
+      <h2 style="font:900 60px/1 'Archivo Black',sans-serif;letter-spacing:-2px;margin:0;max-width:820px">Get a free teardown of your website.</h2>
+      <p style="font:400 17px/1.6 'Space Grotesk',sans-serif;color:rgba(246,244,240,.65);margin:24px 0 0;max-width:480px">Send us your current site (or your competitor's). We'll record a 5-minute video on what's costing you customers — free, no strings.</p>
+      <div style="display:flex;gap:14px;margin-top:36px">
+        <a href="mailto:jake@deadliftdigital.com" style="padding:16px 30px;background:#e85d26;color:#fff;border-radius:5px;font:600 15px 'Space Grotesk',sans-serif" style-hover="background:#f06d38;color:#fff">jake@deadliftdigital.com</a>
+        <a href="tel:5550450450" style="padding:16px 30px;border:1px solid rgba(246,244,240,.3);border-radius:5px;font:600 15px 'Space Grotesk',sans-serif" style-hover="border-color:#e85d26">(555) 045-0450</a>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:90px;padding-top:28px;border-top:1px solid rgba(246,244,240,.12);font:400 10.5px 'IBM Plex Mono',monospace;letter-spacing:1.5px;color:rgba(246,244,240,.45)">
+        <div style="display:flex;align-items:center;gap:8px">
+          <svg width="18" height="18" viewBox="0 0 130 130"><circle cx="65" cy="65" r="55" fill="none" stroke="#f6f4f0" stroke-width="12"></circle><circle cx="65" cy="65" r="18" fill="#e85d26"></circle></svg>
+          <span>©2026 DEADLIFT DIGITAL</span>
+        </div>
+        <div style="display:flex;gap:24px">
+          <a href="#about" style="color:rgba(246,244,240,.45)">ABOUT</a>
+          <a href="#services" style="color:rgba(246,244,240,.45)">SERVICES</a>
+          <a href="#work" style="color:rgba(246,244,240,.45)">WORK</a>
+          <a href="#top" style="color:rgba(246,244,240,.45)">BACK TO TOP ↑</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;plateSpin&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;},&quot;showMarquee&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Sections&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const spin = this.props.plateSpin ?? true;
+    return {
+      plateSpinAnim: spin ? 'dd-spin 90s linear infinite' : 'none',
+      showMarquee: this.props.showMarquee ?? true,
+      services: [
+        { num: '01', name: 'Free website teardown', desc: "A 5-minute video review of your current site: what's costing you customers and what we'd fix first. Free, no strings attached." },
+        { num: '02', name: 'Starter build', desc: 'A 5-page site that makes you look established — mobile-first, fast, launched in two weeks at a fixed price.' },
+        { num: '03', name: 'Heavy build', desc: 'Custom design, copywriting, online booking or e-commerce, and local SEO baked in. For businesses ready to grow.' },
+        { num: '04', name: 'Get found on Google', desc: 'Google Business Profile, local SEO, and review setup — so people searching in your area find you, not your competitor.' },
+        { num: '05', name: 'Spotter plan', desc: 'Hosting, security, updates, and edits handled monthly — plus a plain-English report on how your site performed.' }
+      ],
+      reasons: [
+        { num: '/01', title: 'Fixed price, no surprises', desc: 'You know the number before we start. It does not change.' },
+        { num: '/02', title: 'Live in two weeks', desc: 'Kickoff to launch in 14 days for a Starter build. No six-month agency timelines.' },
+        { num: '/03', title: 'A human you can call', desc: 'You get Jake, not a ticket queue. Questions answered in plain English.' },
+        { num: '/04', title: 'Built to win customers', desc: 'Every decision is about calls, bookings, and sales — not design awards.' },
+        { num: '/05', title: 'We stick around', desc: 'The Spotter plan keeps your site fast, secure, and current after launch.' },
+        { num: '/06', title: 'Small business only', desc: "This is who we build for. We know what works because it's all we do." }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

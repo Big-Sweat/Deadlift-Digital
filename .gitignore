@@ -1,0 +1,6 @@
+# Local Claude Code permission settings (machine-specific)
+.claude/settings.local.json
+
+# graphify machine-specific sidecars (absolute local paths)
+graphify-out/.graphify_python
+graphify-out/.graphify_root
