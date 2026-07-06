@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "lenis-smooth-scroll": {
+      "source": "Ahmet-Talha-Kavakli/ai-body-backend",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/lenis-smooth-scroll/SKILL.md",
+      "computedHash": "b539642ed17c3e0914339f2b6ca1fd531ed08a19eedc7ae1887b11f515c2215f"
+    }
+  }
+}

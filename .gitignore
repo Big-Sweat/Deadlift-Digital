@@ -4,3 +4,6 @@
 # graphify machine-specific sidecars (absolute local paths)
 graphify-out/.graphify_python
 graphify-out/.graphify_root
+
+# Claude Code skill symlinks (absolute local paths, machine-specific)
+.claude/skills/
