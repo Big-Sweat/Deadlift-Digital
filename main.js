@@ -221,8 +221,14 @@
     var plate3d = document.getElementById('plate-3d');
     var dropEl = document.getElementById('plate-drop');
     var pileEl = document.getElementById('chalk-pile');
-    var burstEl = document.getElementById('chalk-burst');
+    var bursts = {
+      coarse: document.getElementById('chalk-burst'),
+      fine: document.getElementById('chalk-burst-fine')
+    };
     if (!stage || !plate3d) return;
+
+    // Dev hook for tuning the burst without reloading: __ddChalk(0..1)
+    window.__ddChalk = function (p) { chalkImpact(typeof p === 'number' ? p : 1, bursts, pileEl); };
 
     var desktopPlate = window.matchMedia('(min-width:1025px)').matches;
 
@@ -253,12 +259,16 @@
       { transform: 'translateY(-9px)', offset: 0.91, easing: 'cubic-bezier(.55,0,.85,.5)' },
       { transform: 'translateY(0)', offset: 1 }
     ], { duration: D, delay: DELAY, fill: 'both' });
-    setTimeout(function () { chalkImpact(1, burstEl, pileEl); }, DELAY + D * 0.56);
-    setTimeout(function () { chalkImpact(0.3, burstEl, pileEl); }, DELAY + D * 0.82);
+    setTimeout(function () { chalkImpact(1, bursts, pileEl); }, DELAY + D * 0.56);
+    setTimeout(function () { chalkImpact(0.3, bursts, pileEl); }, DELAY + D * 0.82);
   }
 
-  // Chalk burst at the plate's landing point. power: 1 = first slam, <1 = rebound tap
-  function chalkImpact(power, burstEl, pileEl) {
+  // Chalk burst at the plate's landing point. power: 1 = first slam, <1 = rebound tap.
+  // Realism model: chalk is heavier than smoke. A drag-damped burst (violent
+  // start, near-dead stop), volumetric puffs lit from the upper-left, depth
+  // bands split across two turbulence layers, and dust that finally SETTLES
+  // downward instead of rising away like smoke.
+  function chalkImpact(power, bursts, pileEl) {
     if (pileEl && power === 1 && pileEl.animate) {
       pileEl.style.transformOrigin = '50% 100%';
       pileEl.animate([
@@ -271,119 +281,177 @@
       void el.offsetWidth;
       el.style.animation = 'dd-shake ' + Math.round(420 * power + 120) + 'ms cubic-bezier(.36,.07,.19,.97) 1';
     });
-    if (!burstEl || !burstEl.animate) return;
+    var coarseEl = bursts && bursts.coarse;
+    var fineEl = (bursts && bursts.fine) || coarseEl;
+    if (!coarseEl || !coarseEl.animate) return;
+
+    var R = Math.random;
+    // irregular blob outline so no two lobes share a silhouette
+    function irregular() {
+      function v() { return (38 + R() * 24) + '%'; }
+      return v() + ' ' + v() + ' ' + v() + ' ' + v() + ' / ' + v() + ' ' + v() + ' ' + v() + ' ' + v();
+    }
+    // volumetric lobe: bright chalk highlight (upper-left key light), warm-gray
+    // body, dusky rim. The shading gradient is what makes puffs read as 3D.
+    function lobeBg(a, hx, hy) {
+      return 'radial-gradient(circle at ' + hx + '% ' + hy + '%,rgba(248,246,240,' + a.toFixed(3) + '),rgba(213,209,199,' + (a * 0.55).toFixed(3) + ') 42%,rgba(150,146,137,' + (a * 0.22).toFixed(3) + ') 65%,rgba(150,146,137,0) 78%)';
+    }
+
+    // pressure shockwave: a thin dust ring kicked out along the ground, gone fast
+    var ring = document.createElement('div');
+    ring.style.cssText = 'position:absolute;left:-70px;bottom:-16px;width:140px;height:38px;border-radius:50%;border:2px solid rgba(236,233,226,.38);filter:blur(3px);will-change:transform,opacity';
+    coarseEl.appendChild(ring);
+    ring.animate([
+      { transform: 'scale(.25,.3)', opacity: .9, easing: 'cubic-bezier(.05,.85,.2,1)' },
+      { transform: 'scale(4.6,2.6)', opacity: 0 }
+    ], { duration: 480 * (0.7 + 0.3 * power) }).onfinish = function () { ring.remove(); };
 
     // low ground wash rolling out from under the plate
     var wash = document.createElement('div');
-    wash.style.cssText = 'position:absolute;left:-130px;bottom:-30px;width:260px;height:54px;border-radius:50%;background:radial-gradient(ellipse at 50% 55%,rgba(242,240,236,.5),rgba(242,240,236,0) 72%);filter:blur(10px);will-change:transform,opacity';
-    burstEl.appendChild(wash);
+    wash.style.cssText = 'position:absolute;left:-130px;bottom:-30px;width:260px;height:54px;border-radius:50%;background:radial-gradient(ellipse at 50% 55%,rgba(240,237,229,.42),rgba(240,237,229,0) 72%);filter:blur(10px);will-change:transform,opacity';
+    coarseEl.appendChild(wash);
     wash.animate([
-      { transform: 'scale(.3,.4)', opacity: .85, easing: 'cubic-bezier(.1,.8,.3,1)' },
+      { transform: 'scale(.3,.4)', opacity: .85, easing: 'cubic-bezier(.06,.85,.25,1)' },
       { transform: 'scale(3.6,1.7)', opacity: 0 }
     ], { duration: 1200 * (0.6 + 0.4 * power) }).onfinish = function () { wash.remove(); };
 
-    // dense mound of dust right at the impact point
+    // dense mound of dust right at the impact point: violent pop (72% size by
+    // 7% of the timeline), long dragged dissolve, then a sink back toward the
+    // floor at the end — chalk settles, smoke rises
     var core = document.createElement('div');
-    core.style.cssText = 'position:absolute;left:-110px;bottom:-34px;width:220px;height:104px;border-radius:44% 56% 52% 48% / 60% 54% 46% 40%;background:radial-gradient(ellipse at 50% 62%,rgba(242,240,236,.6),rgba(242,240,236,.3) 50%,rgba(242,240,236,0) 74%);filter:blur(12px);will-change:transform,opacity';
-    burstEl.appendChild(core);
+    core.style.cssText = 'position:absolute;left:-110px;bottom:-34px;width:220px;height:104px;border-radius:44% 56% 52% 48% / 60% 54% 46% 40%;background:' + lobeBg(0.6, 38, 30) + ';filter:blur(11px);will-change:transform,opacity';
+    coarseEl.appendChild(core);
     core.animate([
-      { transform: 'scale(.25,.2)', opacity: 0, easing: 'cubic-bezier(.12,.8,.3,1)' },
-      { transform: 'scale(1.15,1)', opacity: .95, offset: .1, easing: 'ease-out' },
-      { transform: 'scale(1.8,1.5) translateY(-24px)', opacity: .45, offset: .55, easing: 'ease-in-out' },
-      { transform: 'scale(2.5,2) translateY(-52px)', opacity: 0 }
-    ], { duration: 2400 * (0.6 + 0.4 * power) }).onfinish = function () { core.remove(); };
+      { transform: 'scale(.22,.16)', opacity: 0, easing: 'cubic-bezier(.05,.9,.25,1)' },
+      { transform: 'scale(1.12,.98)', opacity: .95, offset: .07, easing: 'ease-out' },
+      { transform: 'scale(1.75,1.45) translateY(-20px)', opacity: .5, offset: .5, easing: 'ease-in-out' },
+      { transform: 'scale(2.4,1.9) translateY(-38px)', opacity: .18, offset: .82, easing: 'ease-in' },
+      { transform: 'scale(2.6,2.05) translateY(-26px)', opacity: 0 }
+    ], { duration: 2600 * (0.6 + 0.4 * power) }).onfinish = function () { core.remove(); };
 
-    // billowing smoke: clusters of overlapping soft lobes that expand, roll, and thin out
-    var nCluster = Math.round(9 * power);
+    // billowing dust: clusters of overlapping shaded lobes. Drag physics —
+    // 55% of the travel is spent by 6% of the timeline, 88% by 18%, then the
+    // cloud nearly stops, hangs, and settles downward as it thins out.
+    var nCluster = Math.round(10 * power);
     for (var c = 0; c < nCluster; c++) {
-      var ang = (14 + Math.random() * 152) * Math.PI / 180;
-      var dist = (60 + Math.random() * 300) * power;
+      var ang = (14 + R() * 152) * Math.PI / 180;
+      var dist = (70 + R() * 310) * power;
       var bx = Math.cos(ang) * dist * 1.5;
       var by = -Math.sin(ang) * dist * 0.5 - 14;
-      var rise = 40 + Math.random() * 110;
-      var drift = (Math.random() - 0.5) * 90;
-      var baseDur = (3000 + Math.random() * 2600) * (0.55 + 0.45 * power);
-      var lobes = 3 + Math.floor(Math.random() * 2);
+      var rise = 30 + R() * 90;
+      var drift = (R() - 0.5) * 80;
+      var sink = 10 + R() * 16;
+      var depth = R();                                  // 0 = near-core crisp, 1 = far soft
+      var layerEl = R() < 0.45 ? fineEl : coarseEl;     // split edge character across the two filters
+      var lit = ang > Math.PI / 2 ? 1 : 0.72;           // key light upper-left: left-going puffs brighter
+      var sx = Math.abs(Math.cos(ang)) > 0.6 ? 1.3 : 0.92; // early stretch along travel direction
+      var baseDur = (3200 + R() * 2800) * (0.55 + 0.45 * power);
+      var lobes = 3 + Math.floor(R() * 2);
       for (var j = 0; j < lobes; j++) {
         var p = document.createElement('div');
-        var s = 44 + Math.random() * 90;
-        var ox = (Math.random() - 0.5) * s * 0.9;
-        var oy = (Math.random() - 0.5) * s * 0.6;
-        var o = 0.3 + Math.random() * 0.25;
-        var rot = (Math.random() - 0.5) * 110;
-        var endS = 2.1 + Math.random() * 1.3;
-        var br = (38 + Math.random() * 24) + '% ' + (38 + Math.random() * 24) + '% ' + (38 + Math.random() * 24) + '% ' + (38 + Math.random() * 24) + '% / ' + (38 + Math.random() * 24) + '% ' + (38 + Math.random() * 24) + '% ' + (38 + Math.random() * 24) + '% ' + (38 + Math.random() * 24) + '%';
-        p.style.cssText = 'position:absolute;left:' + (-s / 2 + ox) + 'px;bottom:' + (-s / 2 + oy) + 'px;width:' + s + 'px;height:' + (s * (0.8 + Math.random() * 0.35)) + 'px;border-radius:' + br + ';background:radial-gradient(circle at ' + (36 + Math.random() * 26) + '% ' + (34 + Math.random() * 26) + '%,rgba(240,238,233,.6),rgba(240,238,233,.32) 48%,rgba(240,238,233,0) 72%);filter:blur(' + (9 + Math.random() * 6) + 'px);will-change:transform,opacity';
-        burstEl.appendChild(p);
-        (function (p) {
+        var s = (40 + R() * 84) * (1 + depth * 0.5);
+        var ox = (R() - 0.5) * s * 0.9;
+        var oy = (R() - 0.5) * s * 0.55;
+        var o = (0.26 + R() * 0.3) * lit * (1 - depth * 0.35);
+        var rot = (R() - 0.5) * 100;
+        var endS = 2.0 + R() * 1.2;
+        var blur = 4 + depth * 11 + R() * 2;
+        p.style.cssText = 'position:absolute;left:' + (-s / 2 + ox) + 'px;bottom:' + (-s / 2 + oy) + 'px;width:' + s + 'px;height:' + (s * (0.78 + R() * 0.35)) + 'px;border-radius:' + irregular() + ';background:' + lobeBg(o + 0.18, 28 + R() * 16, 22 + R() * 16) + ';filter:blur(' + blur.toFixed(1) + 'px);will-change:transform,opacity';
+        layerEl.appendChild(p);
+        (function (p, bx, by, rot, o, endS, rise, drift, sink, sx, baseDur) {
           p.animate([
-            { transform: 'translate(0,0) rotate(0deg) scale(.22,.18)', opacity: 0, easing: 'cubic-bezier(.15,.8,.3,1)' },
-            { transform: 'translate(' + (bx * 0.5) + 'px,' + (by * 0.6) + 'px) rotate(' + (rot * 0.25) + 'deg) scale(.72,.66)', opacity: o, offset: 0.08, easing: 'cubic-bezier(.2,.6,.4,1)' },
-            { transform: 'translate(' + (bx * 0.85) + 'px,' + (by * 0.95) + 'px) rotate(' + (rot * 0.55) + 'deg) scale(' + (1.05 + Math.random() * 0.35) + ')', opacity: o * 0.85, offset: 0.32, easing: 'ease-out' },
-            { transform: 'translate(' + (bx + drift * 0.6) + 'px,' + (by - rise * 0.55) + 'px) rotate(' + (rot * 0.82) + 'deg) scale(' + (endS * 0.82) + ')', opacity: o * 0.4, offset: 0.68, easing: 'ease-in-out' },
-            { transform: 'translate(' + (bx + drift) + 'px,' + (by - rise) + 'px) rotate(' + rot + 'deg) scale(' + endS + ')', opacity: 0 }
-          ], { duration: baseDur * (0.85 + Math.random() * 0.3) }).onfinish = function () { p.remove(); };
-        })(p);
+            { transform: 'translate(0,0) rotate(0deg) scale(' + (0.2 * sx).toFixed(2) + ',.15)', opacity: 0, easing: 'cubic-bezier(.05,.9,.2,1)' },
+            { transform: 'translate(' + (bx * 0.55) + 'px,' + (by * 0.6) + 'px) rotate(' + (rot * 0.3) + 'deg) scale(' + (0.8 * sx).toFixed(2) + ',.62)', opacity: o, offset: 0.06, easing: 'cubic-bezier(.1,.75,.3,1)' },
+            { transform: 'translate(' + (bx * 0.88) + 'px,' + (by * 0.95) + 'px) rotate(' + (rot * 0.55) + 'deg) scale(' + (1.1 + R() * 0.3).toFixed(2) + ')', opacity: o * 0.92, offset: 0.18, easing: 'ease-out' },
+            { transform: 'translate(' + (bx + drift * 0.5) + 'px,' + (by - rise * 0.6) + 'px) rotate(' + (rot * 0.8) + 'deg) scale(' + (endS * 0.85).toFixed(2) + ')', opacity: o * 0.45, offset: 0.6, easing: 'ease-in-out' },
+            { transform: 'translate(' + (bx + drift * 0.85) + 'px,' + (by - rise) + 'px) rotate(' + (rot * 0.95) + 'deg) scale(' + (endS * 0.97).toFixed(2) + ')', opacity: o * 0.18, offset: 0.85, easing: 'ease-in' },
+            { transform: 'translate(' + (bx + drift) + 'px,' + (by - rise + sink) + 'px) rotate(' + rot + 'deg) scale(' + endS.toFixed(2) + ')', opacity: 0 }
+          ], { duration: baseDur * (0.85 + R() * 0.3) }).onfinish = function () { p.remove(); };
+        })(p, bx, by, rot, o, endS, rise, drift, sink, sx, baseDur);
       }
     }
 
-    // ground-hugging surge: flat clouds that skid outward along the floor
+    // near-camera puffs: huge, dim, heavily blurred — a depth-of-field pass
+    var nFg = Math.round(2 * power);
+    for (var f = 0; f < nFg; f++) {
+      var fg = document.createElement('div');
+      var fs = 240 + R() * 120;
+      var fdx = (R() < 0.5 ? -1 : 1) * (120 + R() * 220);
+      var fo = 0.07 + R() * 0.04;
+      fg.style.cssText = 'position:absolute;left:' + (-fs / 2) + 'px;bottom:' + (-fs / 3) + 'px;width:' + fs + 'px;height:' + (fs * 0.72) + 'px;border-radius:50%;background:radial-gradient(circle at 40% 34%,rgba(230,227,219,' + fo.toFixed(3) + '),rgba(230,227,219,0) 70%);filter:blur(18px);will-change:transform,opacity';
+      fineEl.appendChild(fg);
+      (function (fg, fdx) {
+        fg.animate([
+          { transform: 'translate(0,20px) scale(.45)', opacity: 0, easing: 'cubic-bezier(.1,.8,.3,1)' },
+          { transform: 'translate(' + (fdx * 0.5) + 'px,-30px) scale(1.15)', opacity: 1, offset: .22, easing: 'ease-out' },
+          { transform: 'translate(' + fdx + 'px,-40px) scale(1.9)', opacity: 0 }
+        ], { duration: 2400 + R() * 900 }).onfinish = function () { fg.remove(); };
+      })(fg, fdx);
+    }
+
+    // ground-hugging surge: flat dim clouds that skid outward and stop hard
     var nSurge = Math.round(8 * power);
     for (var i = 0; i < nSurge; i++) {
       var g = document.createElement('div');
-      var w = 90 + Math.random() * 130, h = w * 0.32;
-      var side = Math.random() < 0.5 ? -1 : 1;
-      var gdist = side * (110 + Math.random() * 330) * power;
-      var go = 0.22 + Math.random() * 0.2;
-      g.style.cssText = 'position:absolute;left:' + (-w / 2) + 'px;bottom:' + (-h / 2 + 6) + 'px;width:' + w + 'px;height:' + h + 'px;border-radius:50%;background:radial-gradient(ellipse at 50% 55%,rgba(249,248,245,' + go + '),rgba(246,244,240,0) 70%);filter:blur(' + (8 + Math.random() * 6) + 'px);will-change:transform,opacity';
-      burstEl.appendChild(g);
+      var w = 90 + R() * 130, h = w * 0.32;
+      var side = R() < 0.5 ? -1 : 1;
+      var gdist = side * (110 + R() * 330) * power;
+      var go = 0.16 + R() * 0.16;
+      g.style.cssText = 'position:absolute;left:' + (-w / 2) + 'px;bottom:' + (-h / 2 + 6) + 'px;width:' + w + 'px;height:' + h + 'px;border-radius:50%;background:radial-gradient(ellipse at 50% 55%,rgba(228,224,215,' + go.toFixed(3) + '),rgba(228,224,215,0) 70%);filter:blur(' + (8 + R() * 6).toFixed(1) + 'px);will-change:transform,opacity';
+      coarseEl.appendChild(g);
       (function (g, gdist, go) {
         g.animate([
-          { transform: 'translate(0,0) scale(.2,.3)', opacity: Math.min(1, go + 0.2), easing: 'cubic-bezier(.08,.82,.25,1)' },
-          { transform: 'translate(' + (gdist * 0.7) + 'px,-4px) scale(1,.9)', opacity: go, offset: 0.18, easing: 'ease-out' },
-          { transform: 'translate(' + gdist + 'px,' + (-10 - Math.random() * 26) + 'px) scale(' + (1.7 + Math.random() * 0.8) + ',1.5)', opacity: 0 }
-        ], { duration: (2000 + Math.random() * 1600) * (0.55 + 0.45 * power) }).onfinish = function () { g.remove(); };
+          { transform: 'translate(0,0) scale(.2,.3)', opacity: Math.min(1, go + 0.25), easing: 'cubic-bezier(.04,.9,.2,1)' },
+          { transform: 'translate(' + (gdist * 0.75) + 'px,-3px) scale(1,.9)', opacity: go, offset: 0.16, easing: 'ease-out' },
+          { transform: 'translate(' + gdist + 'px,' + (-8 - R() * 18) + 'px) scale(' + (1.7 + R() * 0.8).toFixed(2) + ',1.5)', opacity: 0 }
+        ], { duration: (2200 + R() * 1600) * (0.55 + 0.45 * power) }).onfinish = function () { g.remove(); };
       })(g, gdist, go);
     }
 
-    // lingering haze that hangs in the air before dissolving
+    // lingering haze: near-neutral suspended dust that drifts up briefly,
+    // hangs, then settles back down as it dissolves
     var nHaze = Math.round(4 * power);
     for (var k = 0; k < nHaze; k++) {
       var hz = document.createElement('div');
-      var hs = 220 + Math.random() * 240;
-      var hx = (Math.random() - 0.5) * 320 * power;
-      var ho = 0.10 + Math.random() * 0.09;
-      hz.style.cssText = 'position:absolute;left:' + (-hs / 2) + 'px;bottom:' + (-hs / 3) + 'px;width:' + hs + 'px;height:' + (hs * 0.62) + 'px;border-radius:50%;background:radial-gradient(ellipse at 50% 58%,rgba(248,247,244,' + ho + '),rgba(246,244,240,0) 72%);filter:blur(18px);will-change:transform,opacity';
-      burstEl.appendChild(hz);
-      (function (hz, hx) {
+      var hs = 220 + R() * 240;
+      var hx = (R() - 0.5) * 320 * power;
+      var hrise = 28 + R() * 16;
+      var ho = 0.08 + R() * 0.08;
+      hz.style.cssText = 'position:absolute;left:' + (-hs / 2) + 'px;bottom:' + (-hs / 3) + 'px;width:' + hs + 'px;height:' + (hs * 0.62) + 'px;border-radius:50%;background:radial-gradient(ellipse at 46% 42%,rgba(203,199,190,' + ho.toFixed(3) + '),rgba(203,199,190,0) 72%);filter:blur(18px);will-change:transform,opacity';
+      fineEl.appendChild(hz);
+      (function (hz, hx, hrise) {
         hz.animate([
-          { transform: 'translate(0,10px) scale(.35)', opacity: 0, easing: 'cubic-bezier(.2,.7,.4,1)' },
-          { transform: 'translate(' + (hx * 0.5) + 'px,-12px) scale(1)', opacity: 1, offset: 0.14, easing: 'ease-out' },
-          { transform: 'translate(' + (hx * 0.8) + 'px,-' + (30 + Math.random() * 30) + 'px) scale(1.35)', opacity: .65, offset: 0.55, easing: 'ease-in-out' },
-          { transform: 'translate(' + hx + 'px,-' + (60 + Math.random() * 40) + 'px) scale(1.8)', opacity: 0 }
-        ], { duration: (5200 + Math.random() * 3000) * (0.5 + 0.5 * power) }).onfinish = function () { hz.remove(); };
-      })(hz, hx);
+          { transform: 'translate(0,10px) scale(.35)', opacity: 0, easing: 'cubic-bezier(.1,.8,.3,1)' },
+          { transform: 'translate(' + (hx * 0.5) + 'px,-10px) scale(1)', opacity: 1, offset: 0.12, easing: 'ease-out' },
+          { transform: 'translate(' + (hx * 0.8) + 'px,-' + hrise + 'px) scale(1.3)', opacity: .7, offset: 0.5, easing: 'ease-in-out' },
+          { transform: 'translate(' + (hx * 0.95) + 'px,-' + (hrise + 6) + 'px) scale(1.48)', opacity: .35, offset: 0.78, easing: 'ease-in-out' },
+          { transform: 'translate(' + hx + 'px,-' + (hrise - 10) + 'px) scale(1.6)', opacity: 0 }
+        ], { duration: (5600 + R() * 2800) * (0.5 + 0.5 * power) }).onfinish = function () { hz.remove(); };
+      })(hz, hx, hrise);
     }
 
-    // sharp grit specks on a gravity arc, settling before they fade
-    var nSpeck = Math.round(16 * power);
+    // grit: launches as a motion streak (elongated along its path), rounds out
+    // mid-flight, arcs under gravity, settles on the floor, then fades
+    var nSpeck = Math.round(22 * power);
     for (var m = 0; m < nSpeck; m++) {
       var sp = document.createElement('div');
-      var ss = 2 + Math.random() * 3;
-      var sang = (8 + Math.random() * 164) * Math.PI / 180;
-      var sv = (160 + Math.random() * 420) * power;
+      var ss = 1.5 + R() * 4;
+      var sang = (8 + R() * 164) * Math.PI / 180;
+      var sv = (160 + R() * 420) * power;
       var dx = Math.cos(sang) * sv * 1.35;
       var up = Math.sin(sang) * sv * 0.85 + 34;
-      sp.style.cssText = 'position:absolute;left:0;bottom:0;width:' + ss + 'px;height:' + ss + 'px;border-radius:50%;background:rgba(250,249,246,' + (0.3 + Math.random() * 0.35) + ');will-change:transform,opacity';
-      burstEl.appendChild(sp);
-      (function (sp, dx, up) {
+      var aim = (Math.atan2(-up, dx) * 180 / Math.PI).toFixed(1);
+      sp.style.cssText = 'position:absolute;left:0;bottom:0;width:' + ss.toFixed(1) + 'px;height:' + ss.toFixed(1) + 'px;border-radius:50%;background:rgba(246,243,236,' + (0.3 + R() * 0.35).toFixed(3) + ');will-change:transform,opacity';
+      coarseEl.appendChild(sp);
+      (function (sp, dx, up, aim) {
         sp.animate([
-          { transform: 'translate(0,0)', opacity: 1, easing: 'cubic-bezier(.2,.6,.45,1)' },
-          { transform: 'translate(' + (dx * 0.6) + 'px,' + (-up) + 'px)', opacity: 1, offset: 0.4, easing: 'cubic-bezier(.55,0,.85,.5)' },
-          { transform: 'translate(' + dx + 'px,' + (up * 0.35 + 30) + 'px)', opacity: .9, offset: 0.92, easing: 'linear' },
-          { transform: 'translate(' + (dx * 1.02) + 'px,' + (up * 0.35 + 32) + 'px)', opacity: 0 }
-        ], { duration: 900 + Math.random() * 700 }).onfinish = function () { sp.remove(); };
-      })(sp, dx, up);
+          { transform: 'translate(0,0) rotate(' + aim + 'deg) scale(2.8,.9)', opacity: 1, easing: 'cubic-bezier(.2,.6,.45,1)' },
+          { transform: 'translate(' + (dx * 0.35) + 'px,' + (-up * 0.7) + 'px) rotate(' + aim + 'deg) scale(1.6,1)', opacity: 1, offset: 0.22, easing: 'cubic-bezier(.3,.6,.6,1)' },
+          { transform: 'translate(' + (dx * 0.6) + 'px,' + (-up) + 'px) rotate(' + aim + 'deg) scale(1)', opacity: 1, offset: 0.4, easing: 'cubic-bezier(.55,0,.85,.5)' },
+          { transform: 'translate(' + dx + 'px,' + (up * 0.35 + 30) + 'px) rotate(' + aim + 'deg) scale(1)', opacity: .9, offset: 0.92, easing: 'linear' },
+          { transform: 'translate(' + (dx * 1.02) + 'px,' + (up * 0.35 + 32) + 'px) rotate(' + aim + 'deg) scale(1)', opacity: 0 }
+        ], { duration: 900 + R() * 700 }).onfinish = function () { sp.remove(); };
+      })(sp, dx, up, aim);
     }
   }
 

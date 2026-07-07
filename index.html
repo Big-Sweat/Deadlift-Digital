@@ -32,10 +32,15 @@
     <rect x="37" y="2" width="7" height="20"></rect>
     <rect x="46" y="6" width="5" height="12"></rect>
   </symbol>
-  <!-- smoke displacement filter for the chalk cloud -->
+  <!-- smoke displacement filters for the chalk cloud: coarse billow warp +
+       a finer second seed so the two layers never share edge character -->
   <filter id="dd-smokefx" x="-12%" y="-12%" width="124%" height="124%">
     <feTurbulence type="fractalNoise" baseFrequency="0.011 0.017" numOctaves="3" seed="7" result="n"></feTurbulence>
-    <feDisplacementMap in="SourceGraphic" in2="n" scale="34" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="40" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
+  </filter>
+  <filter id="dd-smokefx-fine" x="-12%" y="-12%" width="124%" height="124%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.024 0.036" numOctaves="3" seed="13" result="n"></feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="24" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>
   </filter>
 </svg>
 
@@ -178,7 +183,10 @@
           </div>
         </div>
       </div>
-      <div class="smoke-field"><div id="chalk-burst"></div></div>
+      <div class="smoke-field">
+        <div class="smoke-layer smoke-layer-coarse"><div id="chalk-burst" class="smoke-anchor"></div></div>
+        <div class="smoke-layer smoke-layer-fine"><div id="chalk-burst-fine" class="smoke-anchor"></div></div>
+      </div>
     </div>
 
     <div class="hero-inner" data-shake>

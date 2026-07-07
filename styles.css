@@ -152,8 +152,11 @@ body::after{
 .plate-rim{position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 3px rgba(0,0,0,.4);transform:translateZ(var(--z))}
 .plate-text{font:600 15px var(--mono);letter-spacing:6px;fill:rgba(246,244,240,.5)}
 
-.smoke-field{position:absolute;left:50%;bottom:-110px;width:1600px;height:780px;margin-left:-800px;pointer-events:none;filter:url(#dd-smokefx)}
-#chalk-burst{position:absolute;left:800px;bottom:126px;width:0;height:0}
+.smoke-field{position:absolute;left:50%;bottom:-110px;width:1600px;height:780px;margin-left:-800px;pointer-events:none}
+.smoke-layer{position:absolute;inset:0;pointer-events:none}
+.smoke-layer-coarse{filter:url(#dd-smokefx)}
+.smoke-layer-fine{filter:url(#dd-smokefx-fine)}
+.smoke-anchor{position:absolute;left:800px;bottom:126px;width:0;height:0}
 
 .plate-inline{display:none}
 
