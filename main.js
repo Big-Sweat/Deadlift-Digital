@@ -15,7 +15,8 @@
   var CONTACT_EMAIL = 'jake@deadliftdigital.com';
 
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var lenis = null; // set in ready(); null = native scroll fallback
+  var lenis = null;   // set in ready(); null = native scroll fallback
+  var glChalk = null; // volumetric GL chalk (js/chalk-gl.js); null = DOM particle fallback
 
   function ready(fn) {
     if (document.readyState !== 'loading') fn();
@@ -250,6 +251,14 @@
       if (pileEl && (reduceMotion || !desktopPlate)) pileEl.style.display = 'none';
       return;
     }
+    // Volumetric GL chalk (three.js, raymarched) — loads async while the
+    // plate falls; if it isn't ready or WebGL is unavailable, the DOM
+    // particle system below remains the fallback.
+    import('./js/chalk-gl.js').then(function (m) {
+      glChalk = m.initChalkGL(document.querySelector('.smoke-field'));
+      window.__ddChalkGL = glChalk; // dev hook, pairs with __ddChalk
+    }).catch(function () { glChalk = null; });
+
     var D = 1250, DELAY = 250;
     dropEl.animate([
       { transform: 'translateY(-120vh)', offset: 0, easing: 'cubic-bezier(.6,0,.95,.45)' },
@@ -284,6 +293,11 @@
     var coarseEl = bursts && bursts.coarse;
     var fineEl = (bursts && bursts.fine) || coarseEl;
     if (!coarseEl || !coarseEl.animate) return;
+    // crisp elements (ring, grit) live on the unfiltered top layer, in front
+    // of the GL volume; the volume itself is GL when ready, DOM otherwise
+    var topEl = document.getElementById('chalk-burst-top') || coarseEl;
+    var useGL = !!(glChalk && glChalk.ok);
+    if (useGL) glChalk.impact(power);
 
     var R = Math.random;
     // irregular blob outline so no two lobes share a silhouette
@@ -300,12 +314,15 @@
     // pressure shockwave: a thin dust ring kicked out along the ground, gone fast
     var ring = document.createElement('div');
     ring.style.cssText = 'position:absolute;left:-70px;bottom:-16px;width:140px;height:38px;border-radius:50%;border:2px solid rgba(236,233,226,.38);filter:blur(3px);will-change:transform,opacity';
-    coarseEl.appendChild(ring);
+    topEl.appendChild(ring);
     ring.animate([
       { transform: 'scale(.25,.3)', opacity: .9, easing: 'cubic-bezier(.05,.85,.2,1)' },
       { transform: 'scale(4.6,2.6)', opacity: 0 }
     ], { duration: 480 * (0.7 + 0.3 * power) }).onfinish = function () { ring.remove(); };
 
+    // DOM volume fallback (wash, core, billows, near-camera puffs, surge,
+    // haze) — skipped entirely when the GL volume is driving
+    if (!useGL) {
     // low ground wash rolling out from under the plate
     var wash = document.createElement('div');
     wash.style.cssText = 'position:absolute;left:-130px;bottom:-30px;width:260px;height:54px;border-radius:50%;background:radial-gradient(ellipse at 50% 55%,rgba(240,237,229,.42),rgba(240,237,229,0) 72%);filter:blur(10px);will-change:transform,opacity';
@@ -429,6 +446,7 @@
         ], { duration: (5600 + R() * 2800) * (0.5 + 0.5 * power) }).onfinish = function () { hz.remove(); };
       })(hz, hx, hrise);
     }
+    } // end DOM volume fallback
 
     // grit: launches as a motion streak (elongated along its path), rounds out
     // mid-flight, arcs under gravity, settles on the floor, then fades
@@ -442,7 +460,7 @@
       var up = Math.sin(sang) * sv * 0.85 + 34;
       var aim = (Math.atan2(-up, dx) * 180 / Math.PI).toFixed(1);
       sp.style.cssText = 'position:absolute;left:0;bottom:0;width:' + ss.toFixed(1) + 'px;height:' + ss.toFixed(1) + 'px;border-radius:50%;background:rgba(246,243,236,' + (0.3 + R() * 0.35).toFixed(3) + ');will-change:transform,opacity';
-      coarseEl.appendChild(sp);
+      topEl.appendChild(sp);
       (function (sp, dx, up, aim) {
         sp.animate([
           { transform: 'translate(0,0) rotate(' + aim + 'deg) scale(2.8,.9)', opacity: 1, easing: 'cubic-bezier(.2,.6,.45,1)' },
