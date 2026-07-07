@@ -38,7 +38,11 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  background:var(--iron);color:var(--chalk);
+  /* Solid iron base, painted on the body — the deepest layer — so the dark
+     sections read through it, the light ones cover it, and it never sits in
+     front of the fixed hero plate. */
+  background:var(--iron);
+  color:var(--chalk);
   font-family:var(--body);-webkit-font-smoothing:antialiased;
   overflow-x:clip;min-height:100vh;
 }
@@ -57,16 +61,6 @@ html.lenis,html.lenis body{height:auto}
 html.lenis{scroll-behavior:auto!important}
 html.lenis [data-lenis-prevent]{overscroll-behavior:contain}
 .lenis.lenis-stopped{overflow:hidden}
-
-/* Barbell knurling: two crossed diagonal hatches form a fine diamond grip
-   texture. Fixed and behind content (z-index:-1), so it shows through the
-   dark iron sections and is covered by the light ones. Very subtle. */
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:-1;
-  background-image:
-    repeating-linear-gradient(45deg,  rgba(232,93,38,.05) 0 1px, transparent 1px 8px),
-    repeating-linear-gradient(-45deg, rgba(232,93,38,.05) 0 1px, transparent 1px 8px);
-}
 
 /* Grain overlay */
 body::after{
