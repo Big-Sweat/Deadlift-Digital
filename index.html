@@ -11,6 +11,7 @@
 <meta property="og:type" content="website">
 <link rel="preload" href="fonts/archivo-black-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/black-ops-one-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
 <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -106,82 +107,10 @@
         <span class="chalk-speck" style="left:49%;bottom:26px;width:6px;height:4px;opacity:.75"></span>
       </div>
       <div id="plate-drop" class="plate-drop">
-        <div class="plate-tilt">
-          <div id="plate-3d" class="plate-3d">
-            <!-- front face -->
-            <div class="plate-face plate-front">
-              <svg width="600" height="600" viewBox="0 0 400 400" aria-hidden="true">
-                <defs>
-                  <radialGradient id="dd-metal" cx="38%" cy="34%" r="75%">
-                    <stop offset="0%" stop-color="#2e3035"></stop>
-                    <stop offset="55%" stop-color="#1e1f23"></stop>
-                    <stop offset="88%" stop-color="#26282d"></stop>
-                    <stop offset="100%" stop-color="#191a1d"></stop>
-                  </radialGradient>
-                  <path id="dd-ring" d="M 200,200 m -128,0 a 128,128 0 1,1 256,0 a 128,128 0 1,1 -256,0"></path>
-                </defs>
-                <circle cx="200" cy="200" r="194" fill="url(#dd-metal)" stroke="#0d0e10" stroke-width="3"></circle>
-                <circle cx="200" cy="200" r="188" fill="none" stroke="rgba(246,244,240,.5)" stroke-width="2.5"></circle>
-                <path d="M 60,86 A 182,182 0 0 1 200,18" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="22" stroke-linecap="round"></path>
-                <circle cx="200" cy="200" r="152" fill="none" stroke="rgba(246,244,240,.3)" stroke-width="1.5"></circle>
-                <text class="plate-text"><textPath href="#dd-ring">DEADLIFT DIGITAL · WEBSITES THAT PULL WEIGHT · EST 2026 · DEADLIFT DIGITAL ·</textPath></text>
-                <circle cx="200" cy="200" r="104" fill="none" stroke="rgba(246,244,240,.18)" stroke-width="1.5"></circle>
-                <g fill="rgba(246,244,240,.22)">
-                  <circle cx="200" cy="122" r="5"></circle><circle cx="200" cy="278" r="5"></circle>
-                  <circle cx="122" cy="200" r="5"></circle><circle cx="278" cy="200" r="5"></circle>
-                  <circle cx="145" cy="145" r="5"></circle><circle cx="255" cy="255" r="5"></circle>
-                  <circle cx="255" cy="145" r="5"></circle><circle cx="145" cy="255" r="5"></circle>
-                </g>
-                <circle cx="200" cy="200" r="52" fill="#101113"></circle>
-                <circle cx="200" cy="200" r="44" fill="#e85d26"></circle>
-                <circle cx="200" cy="200" r="44" fill="none" stroke="rgba(0,0,0,.35)" stroke-width="6"></circle>
-                <path d="M 172,180 A 34,34 0 0 1 214,168" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="7" stroke-linecap="round"></path>
-              </svg>
-            </div>
-            <!-- back face -->
-            <div class="plate-face plate-back">
-              <svg width="600" height="600" viewBox="0 0 400 400" aria-hidden="true">
-                <defs>
-                  <radialGradient id="dd-metal-b" cx="38%" cy="34%" r="75%">
-                    <stop offset="0%" stop-color="#2e3035"></stop>
-                    <stop offset="55%" stop-color="#1e1f23"></stop>
-                    <stop offset="88%" stop-color="#26282d"></stop>
-                    <stop offset="100%" stop-color="#191a1d"></stop>
-                  </radialGradient>
-                  <path id="dd-ring-b" d="M 200,200 m -128,0 a 128,128 0 1,1 256,0 a 128,128 0 1,1 -256,0"></path>
-                </defs>
-                <circle cx="200" cy="200" r="194" fill="url(#dd-metal-b)" stroke="#0d0e10" stroke-width="3"></circle>
-                <circle cx="200" cy="200" r="188" fill="none" stroke="rgba(246,244,240,.5)" stroke-width="2.5"></circle>
-                <circle cx="200" cy="200" r="152" fill="none" stroke="rgba(246,244,240,.3)" stroke-width="1.5"></circle>
-                <text class="plate-text"><textPath href="#dd-ring-b">DEADLIFT DIGITAL · WEBSITES THAT PULL WEIGHT · EST 2026 · DEADLIFT DIGITAL ·</textPath></text>
-                <circle cx="200" cy="200" r="104" fill="none" stroke="rgba(246,244,240,.18)" stroke-width="1.5"></circle>
-                <g fill="rgba(246,244,240,.22)">
-                  <circle cx="200" cy="122" r="5"></circle><circle cx="200" cy="278" r="5"></circle>
-                  <circle cx="122" cy="200" r="5"></circle><circle cx="278" cy="200" r="5"></circle>
-                  <circle cx="145" cy="145" r="5"></circle><circle cx="255" cy="255" r="5"></circle>
-                  <circle cx="255" cy="145" r="5"></circle><circle cx="145" cy="255" r="5"></circle>
-                </g>
-                <circle cx="200" cy="200" r="52" fill="#101113"></circle>
-                <circle cx="200" cy="200" r="44" fill="#e85d26"></circle>
-                <circle cx="200" cy="200" r="44" fill="none" stroke="rgba(0,0,0,.35)" stroke-width="6"></circle>
-              </svg>
-            </div>
-            <!-- rim depth -->
-            <div class="plate-rim" style="--z:-30px;background:#17181b"></div>
-            <div class="plate-rim" style="--z:-25px;background:#191a1e"></div>
-            <div class="plate-rim" style="--z:-20px;background:#1b1c20"></div>
-            <div class="plate-rim" style="--z:-15px;background:#1d1e22"></div>
-            <div class="plate-rim" style="--z:-10px;background:#1f2024"></div>
-            <div class="plate-rim" style="--z:-5px;background:#212226"></div>
-            <div class="plate-rim" style="--z:0px;background:#232428"></div>
-            <div class="plate-rim" style="--z:5px;background:#212226"></div>
-            <div class="plate-rim" style="--z:10px;background:#1f2024"></div>
-            <div class="plate-rim" style="--z:15px;background:#1d1e22"></div>
-            <div class="plate-rim" style="--z:20px;background:#1b1c20"></div>
-            <div class="plate-rim" style="--z:25px;background:#191a1e"></div>
-            <div class="plate-rim" style="--z:30px;background:#17181b"></div>
-          </div>
-        </div>
+        <!-- Realistic GL plate (js/plate-gl.js) renders its canvas here;
+             the drop transform stays on the wrapper above, spin/scroll
+             rotation is fed to the scene from main.js -->
+        <div id="plate-gl" class="plate-gl"></div>
       </div>
       <div class="smoke-field">
         <div class="smoke-layer smoke-layer-coarse"><div id="chalk-burst" class="smoke-anchor"></div></div>
@@ -194,35 +123,9 @@
     <div class="hero-inner" data-shake>
       <p class="eyebrow eyebrow-accent hero-eyebrow">/ HEAVY-DUTY WEBSITES FOR SMALL BUSINESS</p>
 
-      <!-- Mobile-only inline plate (slow spin) -->
-      <div class="plate-inline" aria-hidden="true">
-        <svg viewBox="0 0 400 400" aria-hidden="true">
-          <defs>
-            <radialGradient id="dd-metal-m" cx="38%" cy="34%" r="75%">
-              <stop offset="0%" stop-color="#2e3035"></stop>
-              <stop offset="55%" stop-color="#1e1f23"></stop>
-              <stop offset="88%" stop-color="#26282d"></stop>
-              <stop offset="100%" stop-color="#191a1d"></stop>
-            </radialGradient>
-            <path id="dd-ring-m" d="M 200,200 m -128,0 a 128,128 0 1,1 256,0 a 128,128 0 1,1 -256,0"></path>
-          </defs>
-          <circle cx="200" cy="200" r="194" fill="url(#dd-metal-m)" stroke="#0d0e10" stroke-width="3"></circle>
-          <circle cx="200" cy="200" r="188" fill="none" stroke="rgba(246,244,240,.5)" stroke-width="2.5"></circle>
-          <circle cx="200" cy="200" r="152" fill="none" stroke="rgba(246,244,240,.3)" stroke-width="1.5"></circle>
-          <text class="plate-text"><textPath href="#dd-ring-m">DEADLIFT DIGITAL · WEBSITES THAT PULL WEIGHT · EST 2026 · DEADLIFT DIGITAL ·</textPath></text>
-          <circle cx="200" cy="200" r="104" fill="none" stroke="rgba(246,244,240,.18)" stroke-width="1.5"></circle>
-          <g fill="rgba(246,244,240,.22)">
-            <circle cx="200" cy="122" r="5"></circle><circle cx="200" cy="278" r="5"></circle>
-            <circle cx="122" cy="200" r="5"></circle><circle cx="278" cy="200" r="5"></circle>
-            <circle cx="145" cy="145" r="5"></circle><circle cx="255" cy="255" r="5"></circle>
-            <circle cx="255" cy="145" r="5"></circle><circle cx="145" cy="255" r="5"></circle>
-          </g>
-          <circle cx="200" cy="200" r="52" fill="#101113"></circle>
-          <circle cx="200" cy="200" r="44" fill="#e85d26"></circle>
-          <circle cx="200" cy="200" r="44" fill="none" stroke="rgba(0,0,0,.35)" stroke-width="6"></circle>
-          <path d="M 172,180 A 34,34 0 0 1 214,168" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="7" stroke-linecap="round"></path>
-        </svg>
-      </div>
+      <!-- Mobile-only inline plate: the GL plate renders face-on here and
+           the CSS dd-spin animation keeps the original slow record spin -->
+      <div id="plate-inline" class="plate-inline" aria-hidden="true"></div>
 
       <h1 id="hero-title" class="hero-title">
         <span class="hero-title-fill">DEADLIFT</span>
