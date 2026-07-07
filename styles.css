@@ -45,6 +45,16 @@ a:hover{color:var(--orange)}
 img,svg{display:block}
 :focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:2px}
 
+/* Lenis smooth scroll (recommended base styles).
+   While Lenis drives the scroll it sets .lenis/.lenis-smooth on <html>;
+   native scroll-behavior must yield or anchors get double-smoothed.
+   The plain `scroll-behavior: smooth` above stays as the no-JS /
+   reduced-motion fallback. */
+html.lenis,html.lenis body{height:auto}
+html.lenis{scroll-behavior:auto!important}
+html.lenis [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:hidden}
+
 /* Grain overlay */
 body::after{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.05;mix-blend-mode:overlay;

@@ -15,6 +15,7 @@
   var CONTACT_EMAIL = 'jake@deadliftdigital.com';
 
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var lenis = null; // set in ready(); null = native scroll fallback
 
   function ready(fn) {
     if (document.readyState !== 'loading') fn();
@@ -22,6 +23,7 @@
   }
 
   ready(function () {
+    lenis = initLenis();
     startClock();
     initMobileNav();
     if (!reduceMotion) initClickFeedback();
@@ -30,6 +32,31 @@
     initPlate();
     initForm();
   });
+
+  /* ---- Lenis momentum scroll (vendor/lenis.min.js) ----
+     Skipped under prefers-reduced-motion; CSS scroll-behavior:smooth
+     remains the fallback when Lenis is absent. */
+  function initLenis() {
+    if (reduceMotion || typeof window.Lenis !== 'function') return null;
+    var l = new window.Lenis({ lerp: 0.1 });
+    function raf(time) { l.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+
+    // Targeted scrolling: route hash anchors through lenis.scrollTo,
+    // offset for the sticky mobile topbar.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      var hash = a.getAttribute('href');
+      var el = hash.length > 1 && document.querySelector(hash);
+      if (!el) return;
+      e.preventDefault();
+      var offset = window.matchMedia('(max-width:1024px)').matches ? -64 : 0;
+      l.scrollTo(el, { offset: offset });
+      history.pushState(null, '', hash);
+    });
+    return l;
+  }
 
   /* ---- Live clock ---- */
   function startClock() {
@@ -54,6 +81,10 @@
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       document.body.style.overflow = open ? 'hidden' : '';
+      // Freeze/resume Lenis so momentum can't scroll the page behind the drawer.
+      // Runs before the document-level anchor handler on link clicks (nav is an
+      // ancestor, so bubbling hits this first), so scrollTo lands after start().
+      if (lenis) { if (open) lenis.stop(); else lenis.start(); }
     }
     toggle.addEventListener('click', function () {
       setOpen(!nav.classList.contains('open'));
