@@ -12,7 +12,7 @@ import * as THREE from 'three';
 
 var FIELD_W = 1600, FIELD_H = 780;   // must match .smoke-field CSS
 var IMPACT_X = 800, IMPACT_Y = 126;  // burst anchor, from bottom-left
-var RES_SCALE = 0.5;                 // volumetrics are soft; render small, upscale
+var MAX_BUFFER_W = 2400;             // cap so hi-DPI doesn't blow up cost
 var SLOW_FRAME_MS = 80;              // watchdog: demote to DOM fallback beyond this
 
 var FRAG = [
@@ -91,7 +91,7 @@ var FRAG = [
   '  vec2 px = vUv * uRes;',
   '  vec2 ip = vec2(' + IMPACT_X.toFixed(1) + ',' + IMPACT_Y.toFixed(1) + ');',
   '  vec3 ro = vec3(px - ip, -95.0);',
-  '  const int STEPS = 12;',
+  '  const int STEPS = 16;',
   '  float dz = 190.0 / float(STEPS);',
   '  vec3 L = normalize(vec3(-0.55, 0.62, -0.5));',
   '  vec3 litCol  = vec3(0.965, 0.955, 0.93);',
@@ -132,8 +132,16 @@ export function initChalkGL(field) {
 
   var canvas = renderer.domElement;
   canvas.className = 'smoke-gl';
-  canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none';
-  renderer.setSize(Math.round(FIELD_W * RES_SCALE), Math.round(FIELD_H * RES_SCALE), false);
+  // A 1.4px blur softens the raymarch/upscale edges without hiding structure;
+  // volumetric chalk should never have a hard pixel edge anyway.
+  canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;filter:blur(1.4px)';
+  // Render at ~1 texel per physical pixel (capped), so the buffer isn't a
+  // half-res blob stretched 2-4x on hi-DPI screens. <3ms/frame here; the
+  // watchdog still demotes any GPU that can't keep up.
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var bw = Math.min(Math.round(FIELD_W * dpr), MAX_BUFFER_W);
+  var bh = Math.round(bw * (FIELD_H / FIELD_W));
+  renderer.setSize(bw, bh, false);
   // insert below the top (specks/ring) layer so crisp grit flies in front
   var top = field.querySelector('.smoke-layer:last-child');
   if (top) field.insertBefore(canvas, top); else field.appendChild(canvas);
