@@ -295,12 +295,29 @@ body::after{
 /* Word-split helper (created by JS) */
 .dd-w{will-change:transform}
 
+/* ---------- Scroll progress bar ----------
+   CSS scroll-driven animation: tracks native scroll (which Lenis drives),
+   costs no JS and no main-thread work. Hidden where unsupported. */
+.scroll-progress{
+  position:fixed;top:0;left:var(--rail-w);right:0;height:3px;
+  background:var(--orange);
+  transform-origin:0 50%;transform:scaleX(0);
+  z-index:60;pointer-events:none;
+  animation:dd-progress linear both;
+  animation-timeline:scroll(root block);
+}
+@keyframes dd-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@supports not (animation-timeline: scroll()){
+  .scroll-progress{display:none}
+}
+
 /* ============================================================
    RESPONSIVE — collapse to the mobile layout (mockup reference)
    ============================================================ */
 @media (max-width:1024px){
   .page{padding-left:0}
   .rail{display:none}
+  .scroll-progress{left:0}
 
   /* top bar */
   .topbar{
