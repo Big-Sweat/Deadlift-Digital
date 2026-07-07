@@ -99,14 +99,20 @@ body::after{
 .rail-nav>a:active{color:var(--orange-hi);transform:translateX(4px)}
 .rail-nav>a:nth-last-of-type(2){border-bottom:none}
 .rail-num{font-size:9px;color:var(--orange)}
+/* shared button identity (desktop rail + mobile drawer) */
 .rail-cta{
   margin-top:22px;display:block;text-align:center;padding:13px 14px;
-  background:var(--orange);color:#fff;border-radius:5px;
-  font:600 12px var(--body);letter-spacing:.5px;border-bottom:none;
+  background:var(--orange);color:#fff;border-radius:5px;border-bottom:none;
+  font:600 12px var(--body);letter-spacing:.5px;
   transition:transform .12s ease,background .2s ease;
 }
 .rail-cta:hover{background:var(--orange-hi);color:#fff}
 .rail-cta:active{transform:scale(.94);background:var(--orange-lo)}
+/* .rail-nav>a (0,1,1) is more specific than base .rail-cta (0,1,0) and would
+   clobber the button's display/padding/font/color/centering — re-assert */
+.rail-nav>a.rail-cta{display:block;gap:0;padding:13px 14px;border-bottom:none;color:#fff;font:600 12px var(--body)}
+.rail-nav>a.rail-cta:hover{color:#fff}
+.rail-nav>a.rail-cta:active{transform:scale(.94)}
 .rail-ticker{margin-top:auto;display:flex;flex-direction:column;gap:9px;font:500 9.5px var(--mono);letter-spacing:1.5px;color:rgba(246,244,240,.45)}
 .rail-status{display:flex;align-items:center;gap:7px;color:rgba(246,244,240,.6)}
 .rail-status .dot{width:6px;height:6px;border-radius:50%;background:#3ddc84;animation:dd-blink 2s infinite;flex:none}
@@ -363,7 +369,8 @@ body::after{
   .mnav-inner{display:flex;flex-direction:column}
   .mnav-inner>a{display:flex;align-items:baseline;gap:12px;padding:17px 0;border-bottom:1px solid rgba(246,244,240,.08);color:var(--chalk);font:500 15px var(--mono);letter-spacing:2px}
   .mnav-inner .rail-num{font-size:11px;color:var(--orange)}
-  .mnav-inner .rail-cta{margin-top:24px;border-bottom:none;font-size:13px;padding:15px}
+  /* same override in the drawer: .mnav-inner>a (0,1,1) beats base .rail-cta */
+  .mnav-inner>a.rail-cta{display:block;text-align:center;margin-top:24px;border-bottom:none;color:#fff;font:600 13px var(--body);letter-spacing:.5px;padding:15px}
 
   /* hero → mobile */
   .hero{min-height:auto;padding:44px 24px 56px}
