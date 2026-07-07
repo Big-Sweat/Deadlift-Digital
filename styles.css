@@ -58,6 +58,16 @@ html.lenis{scroll-behavior:auto!important}
 html.lenis [data-lenis-prevent]{overscroll-behavior:contain}
 .lenis.lenis-stopped{overflow:hidden}
 
+/* Barbell knurling: two crossed diagonal hatches form a fine diamond grip
+   texture. Fixed and behind content (z-index:-1), so it shows through the
+   dark iron sections and is covered by the light ones. Very subtle. */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:-1;
+  background-image:
+    repeating-linear-gradient(45deg,  rgba(232,93,38,.05) 0 1px, transparent 1px 8px),
+    repeating-linear-gradient(-45deg, rgba(232,93,38,.05) 0 1px, transparent 1px 8px);
+}
+
 /* Grain overlay */
 body::after{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.05;mix-blend-mode:overlay;
