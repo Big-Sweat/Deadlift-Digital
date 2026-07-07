@@ -301,23 +301,30 @@ body::after{
 .contact-links{display:flex;flex-direction:column;gap:10px;margin-top:42px;font:400 13px var(--mono);letter-spacing:1px}
 .contact-links a{color:rgba(246,244,240,.75);width:fit-content;transition:color .15s ease,transform .12s ease}
 .contact-links a:hover,.contact-links a:active{color:var(--orange-hi);transform:translateX(5px)}
-.contact-form{background:var(--chalk);color:var(--ink);border-radius:12px;padding:36px;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+/* Acrylic / frosted-glass panel: translucent tint + backdrop blur lets the
+   dark iron texture and orange plate glow through. Opaque-ish fallback below
+   keeps it readable where backdrop-filter is unsupported. Text/inputs run
+   light since the panel now sits on the dark scene, not a cream card. */
+.contact-form{background:rgba(28,30,34,.62);color:var(--chalk);border:1px solid rgba(246,244,240,.14);border-radius:16px;padding:36px;box-shadow:0 30px 80px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.14)}
+@supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .contact-form{background:linear-gradient(155deg,rgba(255,255,255,.14),rgba(255,255,255,.05));-webkit-backdrop-filter:blur(22px) saturate(150%);backdrop-filter:blur(22px) saturate(150%)}
+}
 .form-title{font:700 20px var(--body);letter-spacing:-.3px}
-.form-sub{font:400 13px/1.5 var(--body);color:rgba(23,24,26,.55);margin-top:6px}
+.form-sub{font:400 13px/1.5 var(--body);color:rgba(246,244,240,.62);margin-top:6px}
 .form-fields{display:flex;flex-direction:column;gap:14px;margin-top:26px}
 .field{display:flex;flex-direction:column;gap:6px}
-.field label{font:500 10px var(--mono);letter-spacing:2px;color:rgba(23,24,26,.55)}
-.field input{padding:13px 14px;border:1px solid rgba(23,24,26,.2);border-radius:6px;font:400 14px var(--body);background:#fff;color:var(--ink);outline:none;transition:border-color .15s ease}
-.field input:focus{border-color:var(--orange)}
-.field input::placeholder{color:rgba(23,24,26,.4)}
+.field label{font:500 10px var(--mono);letter-spacing:2px;color:rgba(246,244,240,.6)}
+.field input{padding:13px 14px;border:1px solid rgba(246,244,240,.18);border-radius:6px;font:400 14px var(--body);background:rgba(255,255,255,.06);color:var(--chalk);outline:none;transition:border-color .15s ease,background .15s ease,box-shadow .15s ease}
+.field input:focus{border-color:var(--orange);background:rgba(255,255,255,.09);box-shadow:0 0 0 3px rgba(232,93,38,.18)}
+.field input::placeholder{color:rgba(246,244,240,.4)}
 .form-submit{margin-top:8px;padding:16px;width:100%;box-shadow:none;font-size:15px;letter-spacing:.2px}
 .form-submit:hover{background:var(--orange-lo)}
 .form-submit:active{transform:scale(.96);background:var(--orange-lo)}
 .form-submit[disabled]{opacity:.75;cursor:default;transform:none}
 .form-status{font:500 12px/1.4 var(--body);text-align:center;margin:0}
-.form-status.ok{color:#1f7a3d}
-.form-status.err{color:#b23b2e}
-.form-note{font:400 10.5px var(--mono);letter-spacing:1px;color:rgba(23,24,26,.4);text-align:center;margin:0}
+.form-status.ok{color:#5fd08a}
+.form-status.err{color:#f0806f}
+.form-note{font:400 10.5px var(--mono);letter-spacing:1px;color:rgba(246,244,240,.42);text-align:center;margin:0}
 
 .foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:110px;padding-top:28px;border-top:1px solid rgba(246,244,240,.1);font:400 10.5px var(--mono);letter-spacing:1.5px;color:rgba(246,244,240,.4)}
 .foot-brand{display:flex;align-items:center;gap:9px}
