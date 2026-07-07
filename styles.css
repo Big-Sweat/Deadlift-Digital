@@ -38,16 +38,10 @@
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-  /* Barbell knurling: a repeated 8px SVG X-tile whose arms meet at the tile
-     corners, forming a continuous, perfectly uniform orange diamond grip
-     texture (crossed gradients doubled up at intersections and moiréd; a
-     single rasterised tile repeats identically everywhere). Painted as the
-     body background — the deepest layer — so it shows through the dark
-     sections, is covered by the light ones, and can never sit in front of
-     the fixed hero plate. */
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M0 0L8 8M8 0L0 8' stroke='%23e85d26' stroke-width='1' stroke-opacity='0.16'/%3E%3C/svg%3E"),
-    var(--iron);
+  /* Solid iron base, painted on the body — the deepest layer — so the dark
+     sections read through it, the light ones cover it, and it never sits in
+     front of the fixed hero plate. */
+  background:var(--iron);
   color:var(--chalk);
   font-family:var(--body);-webkit-font-smoothing:antialiased;
   overflow-x:clip;min-height:100vh;
