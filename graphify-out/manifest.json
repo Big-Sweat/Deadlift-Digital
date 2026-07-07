@@ -30,9 +30,9 @@
     "semantic_hash": "be3bca35da63e08a5a41206ae5711d25"
   },
   "main.js": {
-    "mtime": 1783374129.5313635,
-    "ast_hash": "0414813676009ada067f24a079c667bd",
-    "semantic_hash": "0414813676009ada067f24a079c667bd"
+    "mtime": 1783448554.2691293,
+    "ast_hash": "960f8e04ca11c79559533db55caf7089",
+    "semantic_hash": "960f8e04ca11c79559533db55caf7089"
   },
   "README.md": {
     "mtime": 1783374604.408426,
@@ -80,8 +80,88 @@
     "semantic_hash": "e1ce3245f92844ae3ba57553e458c0d4"
   },
   "index.html": {
-    "mtime": 1783374134.8594856,
-    "ast_hash": "0464e24cdc05276bcb17b65119c3a91a",
-    "semantic_hash": "0464e24cdc05276bcb17b65119c3a91a"
+    "mtime": 1783447947.587343,
+    "ast_hash": "773d733f3738d49494348c9f721c34a4",
+    "semantic_hash": "773d733f3738d49494348c9f721c34a4"
+  },
+  "js/chalk-gl.js": {
+    "mtime": 1783449585.4818482,
+    "ast_hash": "2a386e77978fdf32dde83f34c4e8fb5e",
+    "semantic_hash": "2a386e77978fdf32dde83f34c4e8fb5e"
+  },
+  "skills-lock.json": {
+    "mtime": 1783435208.9771836,
+    "ast_hash": "1034d3da6ecaa25d76cea2d8b380468f",
+    "semantic_hash": "1034d3da6ecaa25d76cea2d8b380468f"
+  },
+  "vendor/lenis.min.js": {
+    "mtime": 1783377925.984618,
+    "ast_hash": "bf7916e121a5a66bfafe0dd44da117d2",
+    "semantic_hash": "bf7916e121a5a66bfafe0dd44da117d2"
+  },
+  "vendor/three.core.min.js": {
+    "mtime": 1783447716.041511,
+    "ast_hash": "71bebd49f962811bfcec3b3081c6b90d",
+    "semantic_hash": "71bebd49f962811bfcec3b3081c6b90d"
+  },
+  "vendor/three.module.min.js": {
+    "mtime": 1783447680.589054,
+    "ast_hash": "3e3d6ba38927e31c553ac94612b9ac82",
+    "semantic_hash": "3e3d6ba38927e31c553ac94612b9ac82"
+  },
+  ".agents/skills/lenis-smooth-scroll/SKILL.md": {
+    "mtime": 1783377537.2369583,
+    "ast_hash": "2e03075d7c44afee9424cf3eba63b294",
+    "semantic_hash": "2e03075d7c44afee9424cf3eba63b294"
+  },
+  ".agents/skills/threejs-animation/SKILL.md": {
+    "mtime": 1783435207.137013,
+    "ast_hash": "164472c866456cf5143ba7d570474093",
+    "semantic_hash": "164472c866456cf5143ba7d570474093"
+  },
+  ".agents/skills/threejs-fundamentals/SKILL.md": {
+    "mtime": 1783435207.1380305,
+    "ast_hash": "b02173c8f6a4f5fc970df7eb89607e21",
+    "semantic_hash": "b02173c8f6a4f5fc970df7eb89607e21"
+  },
+  ".agents/skills/threejs-geometry/SKILL.md": {
+    "mtime": 1783435207.1390114,
+    "ast_hash": "9ac6ec474da3c5708662af3dc5e71c15",
+    "semantic_hash": "9ac6ec474da3c5708662af3dc5e71c15"
+  },
+  ".agents/skills/threejs-interaction/SKILL.md": {
+    "mtime": 1783435207.14001,
+    "ast_hash": "774b3bcce52cb048107816c30e5967cb",
+    "semantic_hash": "774b3bcce52cb048107816c30e5967cb"
+  },
+  ".agents/skills/threejs-lighting/SKILL.md": {
+    "mtime": 1783435207.1410377,
+    "ast_hash": "f4344ac4d326b4a59ebdbcccec8c6a2d",
+    "semantic_hash": "f4344ac4d326b4a59ebdbcccec8c6a2d"
+  },
+  ".agents/skills/threejs-loaders/SKILL.md": {
+    "mtime": 1783435207.1410377,
+    "ast_hash": "7af2b7dc71fde6e2663a497c62e5684c",
+    "semantic_hash": "7af2b7dc71fde6e2663a497c62e5684c"
+  },
+  ".agents/skills/threejs-materials/SKILL.md": {
+    "mtime": 1783435207.14204,
+    "ast_hash": "7a7bad68af34d3c41155a57d48754764",
+    "semantic_hash": "7a7bad68af34d3c41155a57d48754764"
+  },
+  ".agents/skills/threejs-postprocessing/SKILL.md": {
+    "mtime": 1783435207.143013,
+    "ast_hash": "8994f36a1cacb4697c16968640d2c19c",
+    "semantic_hash": "8994f36a1cacb4697c16968640d2c19c"
+  },
+  ".agents/skills/threejs-shaders/SKILL.md": {
+    "mtime": 1783435207.143013,
+    "ast_hash": "74e91f50ce7f8a4588241cf9131e76d0",
+    "semantic_hash": "74e91f50ce7f8a4588241cf9131e76d0"
+  },
+  ".agents/skills/threejs-textures/SKILL.md": {
+    "mtime": 1783435207.144014,
+    "ast_hash": "51752dfeb67ad92bdf1c76d71b634da7",
+    "semantic_hash": "51752dfeb67ad92bdf1c76d71b634da7"
   }
 }
