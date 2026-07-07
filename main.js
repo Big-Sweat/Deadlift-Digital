@@ -17,6 +17,7 @@
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var lenis = null;   // set in ready(); null = native scroll fallback
   var glChalk = null; // volumetric GL chalk (js/chalk-gl.js); null = DOM particle fallback
+  var glPlate = null; // realistic GL hero plate (js/plate-gl.js); null until built
 
   function ready(fn) {
     if (document.readyState !== 'loading') fn();
@@ -219,19 +220,36 @@
   /* ---- 3D plate: drop-in, idle spin, scroll rotation, chalk smoke ---- */
   function initPlate() {
     var stage = document.querySelector('.plate-stage');
-    var plate3d = document.getElementById('plate-3d');
+    var plateMount = document.getElementById('plate-gl');
     var dropEl = document.getElementById('plate-drop');
     var pileEl = document.getElementById('chalk-pile');
     var bursts = {
       coarse: document.getElementById('chalk-burst'),
       fine: document.getElementById('chalk-burst-fine')
     };
-    if (!stage || !plate3d) return;
+    if (!stage || !plateMount) return;
 
     // Dev hook for tuning the burst without reloading: __ddChalk(0..1)
     window.__ddChalk = function (p) { chalkImpact(typeof p === 'number' ? p : 1, bursts, pileEl); };
 
     var desktopPlate = window.matchMedia('(min-width:1025px)').matches;
+    var wantDrop = !reduceMotion && desktopPlate && dropEl && dropEl.animate;
+
+    // Realistic GL plate (three.js, js/plate-gl.js). Desktop renders into
+    // the fixed hero stage; mobile renders face-on into the inline spot,
+    // where the CSS dd-spin animation keeps the old record-style rotation.
+    // Park the drop wrapper offscreen first so the plate can't flash
+    // standing upright while the module paints its textures.
+    if (wantDrop) dropEl.style.transform = 'translateY(-120vh)';
+    var platePromise = import('./js/plate-gl.js').then(function (m) {
+      return desktopPlate
+        ? m.initPlateGL(plateMount)
+        : m.initPlateGL(document.getElementById('plate-inline'), { tilt: 0 });
+    }).catch(function () { return null; });
+    platePromise.then(function (p) {
+      glPlate = p;
+      window.__ddPlateGL = p; // dev hook
+    });
 
     // Idle Y-axis spin + scroll-linked rotation, pinned to viewport centre
     if (!reduceMotion && desktopPlate) {
@@ -239,13 +257,12 @@
       (function loop(now) {
         var idle = (now - t0) * 0.008;
         var rot = idle + window.scrollY * 0.22;
-        plate3d.style.transform = 'rotateY(' + rot.toFixed(2) + 'deg)';
+        if (glPlate) glPlate.setRotation(rot);
         requestAnimationFrame(loop);
       })(performance.now());
     }
 
     // Plate drop-in on load: fall, thud, chalk everywhere
-    var wantDrop = !reduceMotion && desktopPlate && dropEl && dropEl.animate;
     if (!wantDrop) {
       if (dropEl) dropEl.style.transform = 'none';
       if (pileEl && (reduceMotion || !desktopPlate)) pileEl.style.display = 'none';
@@ -259,17 +276,22 @@
       window.__ddChalkGL = glChalk; // dev hook, pairs with __ddChalk
     }).catch(function () { glChalk = null; });
 
-    var D = 1250, DELAY = 250;
-    dropEl.animate([
-      { transform: 'translateY(-120vh)', offset: 0, easing: 'cubic-bezier(.6,0,.95,.45)' },
-      { transform: 'translateY(0)', offset: 0.56, easing: 'cubic-bezier(.2,.7,.35,1)' },
-      { transform: 'translateY(-32px)', offset: 0.7, easing: 'cubic-bezier(.55,0,.85,.45)' },
-      { transform: 'translateY(0)', offset: 0.82, easing: 'cubic-bezier(.25,.7,.4,1)' },
-      { transform: 'translateY(-9px)', offset: 0.91, easing: 'cubic-bezier(.55,0,.85,.5)' },
-      { transform: 'translateY(0)', offset: 1 }
-    ], { duration: D, delay: DELAY, fill: 'both' });
-    setTimeout(function () { chalkImpact(1, bursts, pileEl); }, DELAY + D * 0.56);
-    setTimeout(function () { chalkImpact(0.3, bursts, pileEl); }, DELAY + D * 0.82);
+    // The drop waits for the plate to exist (textures paint in ~100ms off a
+    // local font; the promise always settles), then runs the exact same
+    // fall / thud / rebound keyframes as before.
+    platePromise.then(function () {
+      var D = 1250, DELAY = 250;
+      dropEl.animate([
+        { transform: 'translateY(-120vh)', offset: 0, easing: 'cubic-bezier(.6,0,.95,.45)' },
+        { transform: 'translateY(0)', offset: 0.56, easing: 'cubic-bezier(.2,.7,.35,1)' },
+        { transform: 'translateY(-32px)', offset: 0.7, easing: 'cubic-bezier(.55,0,.85,.45)' },
+        { transform: 'translateY(0)', offset: 0.82, easing: 'cubic-bezier(.25,.7,.4,1)' },
+        { transform: 'translateY(-9px)', offset: 0.91, easing: 'cubic-bezier(.55,0,.85,.5)' },
+        { transform: 'translateY(0)', offset: 1 }
+      ], { duration: D, delay: DELAY, fill: 'both' });
+      setTimeout(function () { chalkImpact(1, bursts, pileEl); }, DELAY + D * 0.56);
+      setTimeout(function () { chalkImpact(0.3, bursts, pileEl); }, DELAY + D * 0.82);
+    });
   }
 
   // Chalk burst at the plate's landing point. power: 1 = first slam, <1 = rebound tap.
