@@ -180,7 +180,7 @@ body::after{
 .about-head{display:grid;grid-template-columns:1.25fr 1fr;gap:70px;align-items:start}
 .about-copy{font:400 16.5px/1.75 var(--body);color:rgba(246,244,240,.68);margin:4px 0 0}
 .about-copy+.about-copy{margin-top:16px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(246,244,240,.1);border:1px solid rgba(246,244,240,.1);margin-top:80px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(246,244,240,.1);border:1px solid rgba(246,244,240,.1);margin-top:80px}
 .stat{background:var(--iron);padding:38px 30px}
 .stat-num{font:900 52px var(--display);letter-spacing:-2px}
 .stat-num.accent{color:var(--orange)}
@@ -393,6 +393,7 @@ body::after{
   .about-head{grid-template-columns:1fr;gap:16px}
   .about-copy{font-size:14.5px;line-height:1.7}
   .stats{grid-template-columns:1fr 1fr;margin-top:32px}
+  .stat:last-child{grid-column:1/-1}
   .stat{padding:22px 18px}
   .stat-num{font-size:32px;letter-spacing:-1px}
   .stat-label{font-size:9px;letter-spacing:1.5px}
