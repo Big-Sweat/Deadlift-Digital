@@ -30,9 +30,9 @@
     "semantic_hash": "be3bca35da63e08a5a41206ae5711d25"
   },
   "main.js": {
-    "mtime": 1783448554.2691293,
-    "ast_hash": "960f8e04ca11c79559533db55caf7089",
-    "semantic_hash": "960f8e04ca11c79559533db55caf7089"
+    "mtime": 1783454116.9011898,
+    "ast_hash": "673996344796fc948f6d8dcd60a3eef5",
+    "semantic_hash": "673996344796fc948f6d8dcd60a3eef5"
   },
   "README.md": {
     "mtime": 1783374604.408426,
@@ -80,9 +80,9 @@
     "semantic_hash": "e1ce3245f92844ae3ba57553e458c0d4"
   },
   "index.html": {
-    "mtime": 1783447947.587343,
-    "ast_hash": "773d733f3738d49494348c9f721c34a4",
-    "semantic_hash": "773d733f3738d49494348c9f721c34a4"
+    "mtime": 1783453484.17204,
+    "ast_hash": "f7d25bbc2e872bf36b17bbd25897188f",
+    "semantic_hash": "f7d25bbc2e872bf36b17bbd25897188f"
   },
   "js/chalk-gl.js": {
     "mtime": 1783449585.4818482,
@@ -163,5 +163,10 @@
     "mtime": 1783435207.144014,
     "ast_hash": "51752dfeb67ad92bdf1c76d71b634da7",
     "semantic_hash": "51752dfeb67ad92bdf1c76d71b634da7"
+  },
+  "js/plate-gl.js": {
+    "mtime": 1783453484.1730406,
+    "ast_hash": "8fdc549d5d7b47b52437ada84dfe9b7a",
+    "semantic_hash": "8fdc549d5d7b47b52437ada84dfe9b7a"
   }
 }
