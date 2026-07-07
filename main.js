@@ -415,6 +415,9 @@
       section.classList.add('work-pan-active');
       track.style.transform = 'none';
       section.style.setProperty('--work-distance', '0px');
+      // one card = one screen: slide width tracks the wrap's inner width
+      var wrap = pin.querySelector('.wrap');
+      if (wrap) section.style.setProperty('--work-slide', wrap.clientWidth + 'px');
       var pinR = pin.getBoundingClientRect();
       var trackR = track.getBoundingClientRect();
       // horizontal travel: everything past the pin's right edge + end padding

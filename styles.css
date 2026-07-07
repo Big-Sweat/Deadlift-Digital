@@ -245,8 +245,10 @@ body::after{
   .work-pan-active .work-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;padding:0 48px;box-sizing:border-box}
   .work-pan-active .work-pin>.wrap{width:100%}
   .work-pan-active .work-track{display:flex;gap:26px;width:max-content;will-change:transform}
-  .work-pan-active .work-card{flex:0 0 min(44vw,560px)}
-  .work-pan-active .work-thumb{height:320px}
+  /* --work-slide is set by JS to the wrap's inner width: one card = one screen */
+  .work-pan-active .work-card{flex:0 0 var(--work-slide,560px)}
+  .work-pan-active .work-thumb{height:clamp(320px,56vh,620px)}
+  .work-pan-active .work-head{margin-bottom:40px}
 }
 
 /* ---------- Why ---------- */
