@@ -103,15 +103,30 @@
     });
   }
 
-  /* ---- Click feedback: orange ring burst + heading jolt ---- */
+  /* ---- Click feedback: ring burst + heading jolt ---- */
   function initClickFeedback() {
+    // Walk up to the first opaque background; return true if it's orange, so
+    // the ring can flip to Iron Black and stay visible on orange surfaces
+    // (CTA buttons, the marquee) instead of orange-on-orange.
+    function onOrange(el) {
+      while (el && el.nodeType === 1 && el !== document.documentElement) {
+        var m = getComputedStyle(el).backgroundColor.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/);
+        if (m) {
+          var r = +m[1], g = +m[2], b = +m[3], a = m[4] === undefined ? 1 : +m[4];
+          if (a > 0.4) return r > 190 && g > 55 && g < 150 && b < 95 && (r - b) > 120;
+        }
+        el = el.parentElement;
+      }
+      return false;
+    }
     document.addEventListener('click', function (e) {
       // Skip keyboard-synthesised clicks (no real pointer position)
       if (e.detail === 0 && e.clientX === 0 && e.clientY === 0) return;
+      var col = onOrange(e.target) ? '#141518' : '#e85d26';
       var b = document.createElement('div');
-      b.style.cssText = 'position:fixed;left:' + (e.clientX - 17) + 'px;top:' + (e.clientY - 17) + 'px;width:34px;height:34px;border-radius:50%;border:3px solid #e85d26;pointer-events:none;z-index:200;animation:dd-burst .5s ease-out forwards';
+      b.style.cssText = 'position:fixed;left:' + (e.clientX - 17) + 'px;top:' + (e.clientY - 17) + 'px;width:34px;height:34px;border-radius:50%;border:3px solid ' + col + ';pointer-events:none;z-index:200;animation:dd-burst .5s ease-out forwards';
       var c = document.createElement('div');
-      c.style.cssText = 'position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#e85d26';
+      c.style.cssText = 'position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:' + col;
       b.appendChild(c);
       document.body.appendChild(b);
       setTimeout(function () { b.remove(); }, 550);
