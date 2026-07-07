@@ -31,51 +31,8 @@
     initScrollReveals();
     initPlate();
     initWorkPan();
-    initDumbbells();
     initForm();
   });
-
-  /* ---- Background dumbbells: rock like nudged iron + chalk poof on hover ---- */
-  function initDumbbells() {
-    if (reduceMotion) return;
-    if (!(window.matchMedia('(hover:hover) and (pointer:fine)').matches)) return;
-    document.querySelectorAll('.bg-dumbbell').forEach(function (wrap) {
-      var svg = wrap.querySelector('svg');
-      if (!svg || !svg.animate) return;
-      var busy = false;
-      wrap.addEventListener('mouseenter', function () {
-        if (busy) return;
-        busy = true;
-        // decaying rock around the floor contact point
-        svg.animate([
-          { transform: 'rotate(0deg)', easing: 'cubic-bezier(.2,.7,.3,1)' },
-          { transform: 'rotate(-4.2deg)', offset: .18, easing: 'cubic-bezier(.45,0,.55,1)' },
-          { transform: 'rotate(2.8deg)', offset: .42, easing: 'cubic-bezier(.45,0,.55,1)' },
-          { transform: 'rotate(-1.5deg)', offset: .64, easing: 'cubic-bezier(.45,0,.55,1)' },
-          { transform: 'rotate(.7deg)', offset: .82, easing: 'cubic-bezier(.45,0,.55,1)' },
-          { transform: 'rotate(0deg)' }
-        ], { duration: 950 }).onfinish = function () { busy = false; };
-        // mini chalk poof at the floor line, same volumetric language as the burst
-        for (var i = 0; i < 5; i++) {
-          var p = document.createElement('div');
-          var s = 16 + Math.random() * 26;
-          var px = 12 + Math.random() * 76;
-          var dx = (Math.random() - 0.5) * 46;
-          var o = 0.2 + Math.random() * 0.18;
-          p.style.cssText = 'position:absolute;left:' + px + '%;bottom:2px;width:' + s + 'px;height:' + (s * 0.8) + 'px;border-radius:46% 54% 50% 50% / 58% 52% 48% 42%;background:radial-gradient(circle at 36% 30%,rgba(248,246,240,' + (o + 0.15).toFixed(3) + '),rgba(213,209,199,' + (o * 0.5).toFixed(3) + ') 45%,rgba(150,146,137,0) 76%);filter:blur(5px);pointer-events:none;will-change:transform,opacity';
-          wrap.appendChild(p);
-          (function (p, dx) {
-            p.animate([
-              { transform: 'translate(0,4px) scale(.3)', opacity: 0, easing: 'cubic-bezier(.05,.9,.2,1)' },
-              { transform: 'translate(' + (dx * 0.6) + 'px,-8px) scale(1)', opacity: 1, offset: .16, easing: 'ease-out' },
-              { transform: 'translate(' + dx + 'px,-16px) scale(1.5)', opacity: .4, offset: .7, easing: 'ease-in-out' },
-              { transform: 'translate(' + (dx * 1.1) + 'px,-12px) scale(1.7)', opacity: 0 }
-            ], { duration: 800 + Math.random() * 450 }).onfinish = function () { p.remove(); };
-          })(p, dx);
-        }
-      });
-    });
-  }
 
   /* ---- Lenis momentum scroll (vendor/lenis.min.js) ----
      Skipped under prefers-reduced-motion; CSS scroll-behavior:smooth

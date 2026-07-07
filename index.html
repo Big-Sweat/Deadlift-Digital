@@ -32,74 +32,6 @@
     <rect x="37" y="2" width="7" height="20"></rect>
     <rect x="46" y="6" width="5" height="12"></rect>
   </symbol>
-  <!-- photoreal hex dumbbell, side view, lying on the floor -->
-  <defs>
-    <linearGradient id="db-rubber" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2b2d32"></stop>
-      <stop offset="45%" stop-color="#1d1e22"></stop>
-      <stop offset="100%" stop-color="#131416"></stop>
-    </linearGradient>
-    <radialGradient id="db-face" cx="42%" cy="36%" r="80%">
-      <stop offset="0%" stop-color="#33353b"></stop>
-      <stop offset="55%" stop-color="#222327"></stop>
-      <stop offset="100%" stop-color="#17181b"></stop>
-    </radialGradient>
-    <linearGradient id="db-chrome" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3c3f45"></stop>
-      <stop offset="18%" stop-color="#9aa0a8"></stop>
-      <stop offset="42%" stop-color="#d8dce1"></stop>
-      <stop offset="58%" stop-color="#8d939b"></stop>
-      <stop offset="82%" stop-color="#43464c"></stop>
-      <stop offset="100%" stop-color="#26282c"></stop>
-    </linearGradient>
-    <linearGradient id="db-collar" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#54585f"></stop>
-      <stop offset="35%" stop-color="#c3c8ce"></stop>
-      <stop offset="65%" stop-color="#6f747c"></stop>
-      <stop offset="100%" stop-color="#2c2e33"></stop>
-    </linearGradient>
-    <radialGradient id="db-floor" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="rgba(0,0,0,.55)"></stop>
-      <stop offset="70%" stop-color="rgba(0,0,0,.25)"></stop>
-      <stop offset="100%" stop-color="rgba(0,0,0,0)"></stop>
-    </radialGradient>
-    <pattern id="db-knurl" width="3" height="18" patternUnits="userSpaceOnUse">
-      <rect width="3" height="18" fill="none"></rect>
-      <line x1="1" y1="0" x2="1" y2="18" stroke="rgba(20,21,24,.35)" stroke-width="1"></line>
-    </pattern>
-  </defs>
-  <symbol id="i-dumbbell-real" viewBox="0 0 260 122">
-    <!-- contact shadow -->
-    <ellipse cx="130" cy="103" rx="112" ry="11" fill="url(#db-floor)"></ellipse>
-    <!-- handle behind heads -->
-    <rect x="70" y="54" width="120" height="17" rx="8.5" fill="url(#db-chrome)"></rect>
-    <!-- knurled grip -->
-    <rect x="92" y="54" width="76" height="17" rx="0" fill="url(#db-knurl)"></rect>
-    <rect x="92" y="54" width="76" height="6" rx="3" fill="rgba(255,255,255,.14)"></rect>
-    <!-- collars -->
-    <rect x="82" y="51" width="11" height="23" rx="3" fill="url(#db-collar)"></rect>
-    <rect x="167" y="51" width="11" height="23" rx="3" fill="url(#db-collar)"></rect>
-    <rect x="93" y="52" width="2.5" height="21" fill="#e85d26" opacity=".8"></rect>
-    <rect x="164.5" y="52" width="2.5" height="21" fill="#e85d26" opacity=".8"></rect>
-    <!-- left hex head -->
-    <g>
-      <path d="M 74.4,45 L 74.4,79 L 45,96 L 15.6,79 L 15.6,45 L 45,28 Z" fill="url(#db-rubber)" stroke="#0d0e10" stroke-width="1.5"></path>
-      <path d="M 68,49 L 68,75 L 45,88.5 L 22,75 L 22,49 L 45,35.5 Z" fill="url(#db-face)" stroke="rgba(0,0,0,.5)" stroke-width="1"></path>
-      <path d="M 15.6,45 L 45,28 L 74.4,45" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="2"></path>
-      <circle cx="45" cy="62" r="9" fill="#101113"></circle>
-      <circle cx="45" cy="62" r="6.5" fill="#191a1e" stroke="rgba(255,255,255,.06)" stroke-width="1"></circle>
-    </g>
-    <!-- right hex head -->
-    <g transform="translate(170,0)">
-      <path d="M 74.4,45 L 74.4,79 L 45,96 L 15.6,79 L 15.6,45 L 45,28 Z" fill="url(#db-rubber)" stroke="#0d0e10" stroke-width="1.5"></path>
-      <path d="M 68,49 L 68,75 L 45,88.5 L 22,75 L 22,49 L 45,35.5 Z" fill="url(#db-face)" stroke="rgba(0,0,0,.5)" stroke-width="1"></path>
-      <path d="M 15.6,45 L 45,28 L 74.4,45" fill="none" stroke="rgba(255,255,255,.10)" stroke-width="2"></path>
-      <circle cx="45" cy="62" r="9" fill="#101113"></circle>
-      <circle cx="45" cy="62" r="6.5" fill="#191a1e" stroke="rgba(255,255,255,.06)" stroke-width="1"></circle>
-    </g>
-    <!-- handle specular -->
-    <ellipse cx="118" cy="57.5" rx="20" ry="2.2" fill="rgba(255,255,255,.35)"></ellipse>
-  </symbol>
   <!-- smoke displacement filters for the chalk cloud: coarse billow warp +
        a finer second seed so the two layers never share edge character -->
   <filter id="dd-smokefx" x="-12%" y="-12%" width="124%" height="124%">
@@ -255,11 +187,6 @@
         <div class="smoke-layer smoke-layer-coarse"><div id="chalk-burst" class="smoke-anchor"></div></div>
         <div class="smoke-layer smoke-layer-fine"><div id="chalk-burst-fine" class="smoke-anchor"></div></div>
       </div>
-    </div>
-
-    <!-- gym-floor set dressing: rocks + puffs chalk on hover -->
-    <div class="bg-dumbbell bg-dumbbell-hero" aria-hidden="true">
-      <svg width="230" height="108" viewBox="0 0 260 122"><use href="#i-dumbbell-real"></use></svg>
     </div>
 
     <div class="hero-inner" data-shake>
@@ -480,9 +407,6 @@
             <p class="form-note" data-default-note>OPENS YOUR EMAIL APP — NOTHING IS STORED</p>
           </div>
         </form>
-      </div>
-      <div class="bg-dumbbell bg-dumbbell-contact" aria-hidden="true">
-        <svg width="190" height="89" viewBox="0 0 260 122"><use href="#i-dumbbell-real"></use></svg>
       </div>
       <div class="foot">
         <div class="foot-brand">
