@@ -222,7 +222,7 @@ body::after{
 .work .eyebrow{margin-bottom:24px}
 .work-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:60px}
 .work-hint{font:400 11px var(--mono);letter-spacing:2px;color:rgba(246,244,240,.45);margin:0}
-.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.work-track{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
 .work-card{background:var(--panel-2);border:1px solid rgba(246,244,240,.1);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:14px;transition:border-color .2s ease}
 .work-card:hover{border-color:rgba(232,93,38,.5)}
 .work-thumb{
@@ -234,6 +234,20 @@ body::after{
 .work-meta{padding:2px 8px 8px}
 .work-name{font:600 17px var(--body)}
 .work-tag{font:400 10.5px var(--mono);letter-spacing:2px;color:rgba(246,244,240,.45);margin-top:6px}
+
+/* Work horizontal pan (desktop, JS-activated).
+   The section grows by --work-distance; the pin stays stuck for exactly
+   that much scroll while JS scrubs the track sideways 1:1, then the
+   sticky releases and the page continues normally. Inactive (mobile,
+   reduced motion, no JS): the default grid above applies untouched. */
+@media (min-width:1025px){
+  .work.work-pan-active{height:calc(100vh + var(--work-distance,0px));padding:0}
+  .work-pan-active .work-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;padding:0 48px;box-sizing:border-box}
+  .work-pan-active .work-pin>.wrap{width:100%}
+  .work-pan-active .work-track{display:flex;gap:26px;width:max-content;will-change:transform}
+  .work-pan-active .work-card{flex:0 0 min(44vw,560px)}
+  .work-pan-active .work-thumb{height:320px}
+}
 
 /* ---------- Why ---------- */
 .why{border-top:1px solid rgba(246,244,240,.1);padding:120px 48px}
@@ -402,7 +416,7 @@ body::after{
 
   .work-head{margin-bottom:26px}
   .work-hint{display:none}
-  .work-grid{grid-template-columns:1fr;gap:18px}
+  .work-track{grid-template-columns:1fr;gap:18px}
   .work-thumb{height:200px}
 
   .why-title{margin-bottom:30px}

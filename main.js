@@ -30,6 +30,7 @@
     initHeadlineSplit();
     initScrollReveals();
     initPlate();
+    initWorkPan();
     initForm();
   });
 
@@ -384,6 +385,69 @@
         ], { duration: 900 + Math.random() * 700 }).onfinish = function () { sp.remove(); };
       })(sp, dx, up);
     }
+  }
+
+  /* ---- Work section: horizontal pan on vertical scroll (desktop) ----
+     The section is made (100vh + distance) tall; a sticky pin holds the
+     cards on screen while a rAF scrub maps scroll progress 1:1 onto
+     translate3d. When the distance is spent the sticky releases and the
+     page scrolls on normally. Collapses to the plain grid on mobile,
+     under prefers-reduced-motion, and without JS. */
+  function initWorkPan() {
+    var section = document.getElementById('work');
+    var pin = section && section.querySelector('.work-pin');
+    var track = section && section.querySelector('.work-track');
+    if (!section || !pin || !track || reduceMotion) return;
+
+    var mq = window.matchMedia('(min-width:1025px)');
+    var distance = 0, top = 0, active = false, lastX = null;
+
+    function measure() {
+      if (!mq.matches) {
+        if (active) {
+          section.classList.remove('work-pan-active');
+          section.style.removeProperty('--work-distance');
+          track.style.transform = '';
+          active = false; lastX = null;
+        }
+        return;
+      }
+      section.classList.add('work-pan-active');
+      track.style.transform = 'none';
+      section.style.setProperty('--work-distance', '0px');
+      var pinR = pin.getBoundingClientRect();
+      var trackR = track.getBoundingClientRect();
+      // horizontal travel: everything past the pin's right edge + end padding
+      distance = Math.max(0, Math.round((trackR.left - pinR.left) + track.scrollWidth - pin.clientWidth + 48));
+      if (!distance) {
+        // track already fits (very wide viewport): no pan needed
+        section.classList.remove('work-pan-active');
+        section.style.removeProperty('--work-distance');
+        track.style.transform = '';
+        active = false; lastX = null;
+        return;
+      }
+      section.style.setProperty('--work-distance', distance + 'px');
+      top = section.getBoundingClientRect().top + window.scrollY;
+      active = true; lastX = null;
+    }
+
+    (function frame() {
+      if (active && distance) {
+        var p = Math.min(1, Math.max(0, (window.scrollY - top) / distance));
+        var x = Math.round(-p * distance * 100) / 100;
+        if (x !== lastX) {
+          track.style.transform = 'translate3d(' + x + 'px,0,0)';
+          lastX = x;
+        }
+      }
+      requestAnimationFrame(frame);
+    })();
+
+    measure();
+    window.addEventListener('resize', measure);
+    window.addEventListener('load', measure);
+    if (mq.addEventListener) mq.addEventListener('change', measure);
   }
 
   /* ---- Teardown form: real endpoint (fetch) with mailto: fallback ---- */
