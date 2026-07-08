@@ -258,7 +258,7 @@
     if (wantDrop) dropEl.style.transform = 'translateY(-120vh)';
     var platePromise = import('./js/plate-gl.js').then(function (m) {
       return desktopPlate
-        ? m.initPlateGL(plateMount)
+        ? m.initPlateGL(plateMount, { dist: 4.6 })
         : m.initPlateGL(document.getElementById('plate-inline'), { tilt: 0 });
     }).catch(function () { return null; });
     platePromise.then(function (p) {

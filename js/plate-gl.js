@@ -11,6 +11,7 @@
 import * as THREE from 'three';
 
 var BASE_TILT = -10 * Math.PI / 180; // forward tilt, matches the old CSS rotateX(10deg)
+var BASE_DIST = 3.65;                // camera distance that frames the plate edge-to-edge
 
 var ALB = 2048;              // albedo resolution
 var AUX = 1024;              // normal / roughness / metalness resolution
@@ -198,18 +199,36 @@ function build(mount, opts) {
     return null;
   }
   var w = mount.clientWidth || 600, h = mount.clientHeight || 600;
+
+  // Camera distance. At BASE_DIST the plate frames edge-to-edge, so the tilted
+  // plate's rim clipped the canvas as it spun (top/bottom always, sides near
+  // face-on). Desktop pulls the camera back (opts.dist) to buy margin; an
+  // equal-ratio canvas OVERSCAN cancels the resulting shrink, so the plate
+  // keeps its original on-screen size and the extra, transparent canvas is what
+  // the rim sweeps through. Mobile keeps BASE_DIST — it spins a flat, face-on
+  // render in CSS (never clips), and its in-flow inline canvas must not overflow.
+  var CAM_Z = (opts && typeof opts.dist === 'number') ? opts.dist : BASE_DIST;
+  var OVERSCAN = CAM_Z / BASE_DIST;
+  var rw = Math.round(w * OVERSCAN), rh = Math.round(h * OVERSCAN);
+
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-  renderer.setSize(w, h);
+  renderer.setSize(rw, rh);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.12;
   renderer.domElement.style.display = 'block';
+  if (OVERSCAN !== 1) {
+    // centre the oversized canvas over the mount; the overflow is transparent
+    var st = renderer.domElement.style;
+    st.position = 'absolute'; st.left = '50%'; st.top = '50%';
+    st.transform = 'translate(-50%,-50%)';
+  }
   mount.appendChild(renderer.domElement);
 
   var scene = new THREE.Scene();
-  var camera = new THREE.PerspectiveCamera(32, w / h, 0.1, 100);
+  var camera = new THREE.PerspectiveCamera(32, rw / rh, 0.1, 100);
   // untilted (mobile record-spin) renders need the camera dead on axis,
   // or the CSS rotation would swing the perspective cue around
-  camera.position.set(0, tiltAngle === 0 ? 0 : 0.12, 3.65); camera.lookAt(0, 0, 0);
+  camera.position.set(0, tiltAngle === 0 ? 0 : 0.12, CAM_Z); camera.lookAt(0, 0, 0);
 
   /* environment map for realistic reflections */
   (function () {
