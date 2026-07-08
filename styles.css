@@ -25,6 +25,7 @@
 /* ---------- Tokens ---------- */
 :root{
   --orange:#e85d26; --orange-hi:#ff6d33; --orange-lo:#d14e1c;
+  --orange-ink:#c24812; /* darker orange: ≥4.5:1 on chalk, for accents in light sections */
   --iron:#141518; --panel:#17181a; --panel-2:#1c1d21;
   --chalk:#f6f4f0; --ink:#17181a;
   --display:'Archivo Black',system-ui,sans-serif;
@@ -48,9 +49,24 @@ body{
 }
 a{color:var(--chalk);text-decoration:none}
 a:hover{color:var(--orange)}
-::selection{background:var(--orange);color:#fff}
+::selection{background:var(--orange);color:var(--iron)}
 img,svg{display:block}
 :focus-visible{outline:2px solid var(--orange);outline-offset:3px;border-radius:2px}
+
+/* Skip link: hidden until keyboard focus, then a chalk chip over everything */
+.skip-link{
+  position:fixed;left:16px;top:14px;z-index:120;
+  background:var(--chalk);color:var(--ink);
+  font:600 12px var(--mono);letter-spacing:1px;
+  padding:11px 18px;border-radius:6px;
+  transform:translateY(-300%);transition:transform .15s ease;
+}
+.skip-link:focus-visible,.skip-link:focus{transform:translateY(0);color:var(--ink)}
+
+/* Anchor-navigation focus targets (sections get focused programmatically
+   after smooth-scroll so keyboard/SR users land where they navigated).
+   The container itself needs no visible ring — it isn't interactive. */
+main:focus,section:focus,footer:focus{outline:none}
 
 /* Lenis smooth scroll (recommended base styles).
    While Lenis drives the scroll it sets .lenis/.lenis-smooth on <html>;
@@ -109,18 +125,18 @@ body::after{
 /* shared button identity (desktop rail + mobile drawer) */
 .rail-cta{
   margin-top:22px;display:block;text-align:center;padding:13px 14px;
-  background:var(--orange);color:#fff;border-radius:5px;border-bottom:none;
-  font:600 12px var(--body);letter-spacing:.5px;
+  background:var(--orange);color:var(--iron);border-radius:5px;border-bottom:none;
+  font:700 12px var(--body);letter-spacing:.5px;
   transition:transform .12s ease,background .2s ease;
 }
-.rail-cta:hover{background:var(--orange-hi);color:#fff}
+.rail-cta:hover{background:var(--orange-hi);color:var(--iron)}
 .rail-cta:active{transform:scale(.94);background:var(--orange-lo)}
 /* .rail-nav>a (0,1,1) is more specific than base .rail-cta (0,1,0) and would
    clobber the button's display/padding/font/color/centering — re-assert */
-.rail-nav>a.rail-cta{display:block;gap:0;padding:13px 14px;border-bottom:none;color:#fff;font:600 12px var(--body)}
-.rail-nav>a.rail-cta:hover{color:#fff}
+.rail-nav>a.rail-cta{display:block;gap:0;padding:13px 14px;border-bottom:none;color:var(--iron);font:700 12px var(--body)}
+.rail-nav>a.rail-cta:hover{color:var(--iron)}
 .rail-nav>a.rail-cta:active{transform:scale(.94)}
-.rail-ticker{margin-top:auto;display:flex;flex-direction:column;gap:9px;font:500 9.5px var(--mono);letter-spacing:1.5px;color:rgba(246,244,240,.45)}
+.rail-ticker{margin-top:auto;display:flex;flex-direction:column;gap:9px;font:500 9.5px var(--mono);letter-spacing:1.5px;color:rgba(246,244,240,.6)}
 .rail-status{display:flex;align-items:center;gap:7px;color:rgba(246,244,240,.6)}
 .rail-status .dot{width:6px;height:6px;border-radius:50%;background:#3ddc84;animation:dd-blink 2s infinite;flex:none}
 
@@ -130,8 +146,10 @@ body::after{
 
 /* ---------- Buttons ---------- */
 .btn{display:inline-block;border-radius:5px;font:600 14px var(--body);cursor:pointer;transition:transform .12s ease,background .2s ease,border-color .2s ease}
-.btn-primary{padding:16px 28px;background:var(--orange);color:#fff;border:none;box-shadow:0 8px 28px rgba(232,93,38,.35)}
-.btn-primary:hover{background:var(--orange-hi);color:#fff}
+/* Iron text on orange (5.3:1) — white failed WCAG contrast at 3.5:1, and
+   dark-on-orange is already the brand treatment on the marquee */
+.btn-primary{padding:16px 28px;background:var(--orange);color:var(--iron);font-weight:700;border:none;box-shadow:0 8px 28px rgba(232,93,38,.35)}
+.btn-primary:hover{background:var(--orange-hi);color:var(--iron)}
 .btn-primary:active{transform:scale(.94);background:var(--orange-lo)}
 .btn-ghost{padding:16px 28px;border:1px solid rgba(246,244,240,.3);color:var(--chalk);background:none}
 .btn-ghost:hover{border-color:var(--orange);color:var(--chalk)}
@@ -176,7 +194,7 @@ body::after{
 .hero-lede{font:300 21px/1.55 var(--body);color:rgba(246,244,240,.72);margin:30px auto 0;max-width:470px;text-shadow:0 4px 30px rgba(0,0,0,.55);animation:dd-rise .7s .25s var(--ease) both}
 .hero-actions{display:flex;justify-content:center;gap:14px;margin-top:38px;animation:dd-rise .7s .35s var(--ease) both}
 .hero-trust{display:flex;justify-content:center;flex-wrap:wrap;gap:18px 34px;margin:56px 0 0;padding:0;list-style:none;animation:dd-rise .7s .45s var(--ease) both}
-.hero-trust li{font:400 11px var(--mono);letter-spacing:2px;color:rgba(246,244,240,.45)}
+.hero-trust li{font:400 11px var(--mono);letter-spacing:2px;color:rgba(246,244,240,.6)}
 .hero-trust b{color:var(--chalk);font-weight:600}
 
 /* ---------- Marquee ---------- */
@@ -184,6 +202,18 @@ body::after{
 .marquee-track{display:flex;width:max-content;white-space:nowrap;animation:dd-marquee 30s linear infinite}
 .marquee-run{display:inline-flex;align-items:center;font:900 20px var(--display);color:var(--iron);letter-spacing:1px}
 .dbell{flex:none;margin:0 18px;fill:var(--iron)}
+/* WCAG 2.2.2: auto-scrolling content needs a pause mechanism. Hover pauses
+   for pointer users; the button is the keyboard/switch-accessible control. */
+.marquee:hover .marquee-track,.marquee.marquee-paused .marquee-track{animation-play-state:paused}
+.marquee-pause{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);z-index:2;
+  width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+  background:var(--orange);color:var(--iron);border:2px solid var(--iron);
+  border-radius:50%;cursor:pointer;padding:0;
+}
+.marquee-pause svg{fill:currentColor}
+.marquee-pause:hover{background:var(--orange-hi)}
+.marquee-pause:focus-visible{outline:2px solid var(--iron);outline-offset:2px}
 
 /* ---------- About ---------- */
 .about{padding:130px 48px 110px;max-width:1240px;margin:0 auto}
@@ -210,7 +240,9 @@ body::after{
 }
 .svc-row:hover{background:#fff;border-left-color:var(--orange)}
 .svc-row:active{background:rgba(232,93,38,.08);border-left-color:var(--orange)}
-.svc-num{font:900 15px var(--mono);color:var(--orange)}
+.svc-num{font:900 15px var(--mono);color:var(--orange-ink)}
+/* Orange accents sit on chalk in the light sections — use the darker ink-orange */
+.services .eyebrow-accent,.mission .eyebrow-accent{color:var(--orange-ink)}
 .svc-name{font:700 24px var(--body);letter-spacing:-.5px}
 .svc-desc{font:400 15px/1.65 var(--body);color:rgba(23,24,26,.62)}
 .svc-arrow{font:300 26px var(--body);color:rgba(23,24,26,.3);text-align:right}
@@ -232,19 +264,19 @@ body::after{
 .work{border-top:1px solid rgba(246,244,240,.1);padding:120px 48px}
 .work .eyebrow{margin-bottom:24px}
 .work-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:60px}
-.work-hint{font:400 11px var(--mono);letter-spacing:2px;color:rgba(246,244,240,.45);margin:0}
+.work-hint{font:400 11px var(--mono);letter-spacing:2px;color:rgba(246,244,240,.6);margin:0}
 .work-track{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
 .work-card{background:var(--panel-2);border:1px solid rgba(246,244,240,.1);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:14px;transition:border-color .2s ease}
 .work-card:hover{border-color:rgba(232,93,38,.5)}
 .work-thumb{
   width:100%;height:250px;background:var(--chalk);border-radius:6px;
   display:flex;align-items:center;justify-content:center;
-  font:500 10.5px var(--mono);letter-spacing:2px;color:rgba(23,24,26,.4);
+  font:500 10.5px var(--mono);letter-spacing:2px;color:rgba(23,24,26,.62);
   box-shadow:inset 0 0 0 1.5px rgba(23,24,26,.14);
 }
 .work-meta{padding:2px 8px 8px}
 .work-name{font:600 17px var(--body)}
-.work-tag{font:400 10.5px var(--mono);letter-spacing:2px;color:rgba(246,244,240,.45);margin-top:6px}
+.work-tag{font:400 10.5px var(--mono);letter-spacing:2px;color:rgba(246,244,240,.6);margin-top:6px}
 
 /* Work horizontal pan (desktop, JS-activated).
    The section grows by --work-distance; the pin stays stuck for exactly
@@ -282,7 +314,7 @@ body::after{
 .founder{display:flex;align-items:center;gap:16px}
 .founder-photo{width:60px;height:60px;border-radius:50%;background:var(--ink);color:var(--chalk);display:flex;align-items:center;justify-content:center;font:700 15px var(--body);letter-spacing:.5px;flex:none}
 .founder-name{font:600 16px var(--body)}
-.founder-role{font:400 10px var(--mono);letter-spacing:2px;color:rgba(23,24,26,.55);margin-top:3px}
+.founder-role{font:400 10px var(--mono);letter-spacing:2px;color:rgba(23,24,26,.68);margin-top:3px}
 .mission-mark{flex:none}
 
 /* ---------- Contact ---------- */
@@ -310,7 +342,7 @@ body::after{
 .field label{font:500 10px var(--mono);letter-spacing:2px;color:rgba(246,244,240,.6)}
 .field input{padding:13px 14px;border:1px solid rgba(246,244,240,.18);border-radius:6px;font:400 14px var(--body);background:rgba(255,255,255,.06);color:var(--chalk);outline:none;transition:border-color .15s ease,background .15s ease,box-shadow .15s ease}
 .field input:focus{border-color:var(--orange);background:rgba(255,255,255,.09);box-shadow:0 0 0 3px rgba(232,93,38,.18)}
-.field input::placeholder{color:rgba(246,244,240,.4)}
+.field input::placeholder{color:rgba(246,244,240,.65)}
 .form-submit{margin-top:8px;padding:16px;width:100%;box-shadow:none;font-size:15px;letter-spacing:.2px}
 .form-submit:hover{background:var(--orange-lo)}
 .form-submit:active{transform:scale(.96);background:var(--orange-lo)}
@@ -318,12 +350,12 @@ body::after{
 .form-status{font:500 12px/1.4 var(--body);text-align:center;margin:0}
 .form-status.ok{color:#5fd08a}
 .form-status.err{color:#f0806f}
-.form-note{font:400 10.5px var(--mono);letter-spacing:1px;color:rgba(246,244,240,.42);text-align:center;margin:0}
+.form-note{font:400 10.5px var(--mono);letter-spacing:1px;color:rgba(246,244,240,.6);text-align:center;margin:0}
 
-.foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:110px;padding-top:28px;border-top:1px solid rgba(246,244,240,.1);font:400 10.5px var(--mono);letter-spacing:1.5px;color:rgba(246,244,240,.4)}
+.foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:110px;padding-top:28px;border-top:1px solid rgba(246,244,240,.1);font:400 10.5px var(--mono);letter-spacing:1.5px;color:rgba(246,244,240,.6)}
 .foot-brand{display:flex;align-items:center;gap:9px}
 .foot-nav{display:flex;gap:26px}
-.foot-nav a{color:rgba(246,244,240,.4)}
+.foot-nav a{color:rgba(246,244,240,.6)}
 .foot-nav a:hover{color:var(--orange)}
 
 /* Word-split helper (created by JS) */
@@ -372,14 +404,16 @@ body::after{
     display:block;position:fixed;inset:0;z-index:35;
     background:rgba(18,19,22,.97);backdrop-filter:blur(14px);
     padding:84px 28px 28px;
-    opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease;
+    /* visibility flips instantly on open (links must be focusable the moment
+       the drawer opens) but waits for the fade on close */
+    opacity:0;visibility:hidden;transition:opacity .25s ease,visibility 0s .25s;
   }
-  .mnav.open{opacity:1;visibility:visible}
+  .mnav.open{opacity:1;visibility:visible;transition:opacity .25s ease,visibility 0s}
   .mnav-inner{display:flex;flex-direction:column}
   .mnav-inner>a{display:flex;align-items:baseline;gap:12px;padding:17px 0;border-bottom:1px solid rgba(246,244,240,.08);color:var(--chalk);font:500 15px var(--mono);letter-spacing:2px}
   .mnav-inner .rail-num{font-size:11px;color:var(--orange)}
   /* same override in the drawer: .mnav-inner>a (0,1,1) beats base .rail-cta */
-  .mnav-inner>a.rail-cta{display:block;text-align:center;margin-top:24px;border-bottom:none;color:#fff;font:600 13px var(--body);letter-spacing:.5px;padding:15px}
+  .mnav-inner>a.rail-cta{display:block;text-align:center;margin-top:24px;border-bottom:none;color:var(--iron);font:700 13px var(--body);letter-spacing:.5px;padding:15px}
 
   /* hero → mobile */
   .hero{min-height:auto;padding:44px 24px 56px}
@@ -473,4 +507,5 @@ body::after{
   html{scroll-behavior:auto}
   .marquee-track,.plate-inline,.rail-status .dot{animation:none!important}
   .hero-eyebrow,.hero-title,.hero-lede,.hero-actions,.hero-trust{animation:none!important}
+  .marquee-pause{display:none} /* nothing scrolls, nothing to pause */
 }

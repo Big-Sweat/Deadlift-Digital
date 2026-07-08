@@ -28,6 +28,7 @@
     lenis = initLenis();
     startClock();
     initMobileNav();
+    initMarqueePause();
     if (!reduceMotion) initClickFeedback();
     initHeadlineSplit();
     initScrollReveals();
@@ -57,6 +58,10 @@
       var offset = window.matchMedia('(max-width:1024px)').matches ? -64 : 0;
       l.scrollTo(el, { offset: offset });
       history.pushState(null, '', hash);
+      // Native hash jumps move keyboard focus to the target; preventDefault
+      // killed that, so restore it — otherwise Tab continues from the nav.
+      if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '-1');
+      el.focus({ preventScroll: true });
     });
     return l;
   }
@@ -78,8 +83,10 @@
     var toggle = document.getElementById('nav-toggle');
     var nav = document.getElementById('mobile-nav');
     if (!toggle || !nav) return;
+    var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
 
     function setOpen(open) {
+      var hadFocusInside = nav.contains(document.activeElement) || document.activeElement === toggle;
       nav.classList.toggle('open', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
@@ -88,6 +95,11 @@
       // Runs before the document-level anchor handler on link clicks (nav is an
       // ancestor, so bubbling hits this first), so scrollTo lands after start().
       if (lenis) { if (open) lenis.stop(); else lenis.start(); }
+      // Dialog focus contract: focus moves in on open; back to the toggle on
+      // close (unless focus was never in the drawer, e.g. a desktop resize).
+      // Focus lands a frame later so the visibility flip has taken effect.
+      if (open) { requestAnimationFrame(function () { if (links[0]) links[0].focus(); }); }
+      else if (hadFocusInside) toggle.focus();
     }
     toggle.addEventListener('click', function () {
       setOpen(!nav.classList.contains('open'));
@@ -96,10 +108,39 @@
       if (e.target.closest('a')) setOpen(false);
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && nav.classList.contains('open')) setOpen(false);
+      if (!nav.classList.contains('open')) return;
+      if (e.key === 'Escape') { setOpen(false); return; }
+      // Focus trap: the drawer is modal (aria-modal), so Tab cycles through
+      // the burger toggle + drawer links and never reaches the page behind.
+      if (e.key !== 'Tab') return;
+      var cycle = [toggle].concat(links);
+      var i = cycle.indexOf(document.activeElement);
+      if (e.shiftKey) {
+        if (i <= 0) { e.preventDefault(); cycle[cycle.length - 1].focus(); }
+      } else if (i === -1 || i === cycle.length - 1) {
+        e.preventDefault(); cycle[0].focus();
+      }
     });
     window.addEventListener('resize', function () {
       if (window.innerWidth > 1024 && nav.classList.contains('open')) setOpen(false);
+    });
+  }
+
+  /* ---- Marquee pause control (WCAG 2.2.2: pause/stop/hide) ----
+     Hover-pause lives in CSS; this button is the keyboard-reachable
+     mechanism. Hidden under prefers-reduced-motion (nothing scrolls). */
+  function initMarqueePause() {
+    var mq = document.querySelector('.marquee');
+    var btn = mq && mq.querySelector('.marquee-pause');
+    if (!mq || !btn) return;
+    if (reduceMotion) { btn.hidden = true; return; }
+    var icoPause = btn.querySelector('.mp-pause');
+    var icoPlay = btn.querySelector('.mp-play');
+    btn.addEventListener('click', function () {
+      var paused = mq.classList.toggle('marquee-paused');
+      btn.setAttribute('aria-pressed', paused ? 'true' : 'false');
+      if (icoPause) icoPause.hidden = paused;
+      if (icoPlay) icoPlay.hidden = !paused;
     });
   }
 
@@ -586,13 +627,23 @@
     var nameEl = document.getElementById('form-name');
     var siteEl = document.getElementById('form-site');
     var emailEl = document.getElementById('form-email');
-    var defaultLabel = btn.textContent;
+    // innerHTML, not textContent: the label ends in an aria-hidden arrow span
+    // that a textContent round-trip would flatten into announced text
+    var defaultLabel = btn.innerHTML;
 
     function setStatus(msg, kind) {
       statusEl.textContent = msg || '';
       statusEl.className = 'form-status' + (kind ? ' ' + kind : '');
       statusEl.hidden = !msg;
     }
+    function setInvalid(el, bad) {
+      if (bad) el.setAttribute('aria-invalid', 'true');
+      else el.removeAttribute('aria-invalid');
+    }
+    // typing in a field clears its error state
+    [nameEl, siteEl, emailEl].forEach(function (el) {
+      el.addEventListener('input', function () { setInvalid(el, false); });
+    });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -600,12 +651,15 @@
       var site = (siteEl.value || '').trim();
       var email = (emailEl.value || '').trim();
 
+      setInvalid(nameEl, false); setInvalid(emailEl, false);
       if (!name || !email) {
+        setInvalid(nameEl, !name); setInvalid(emailEl, !email);
         setStatus("Add your name and email and we'll take it from there.", 'err');
         (name ? emailEl : nameEl).focus();
         return;
       }
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        setInvalid(emailEl, true);
         setStatus('That email looks off. Mind checking it?', 'err');
         emailEl.focus();
         return;
@@ -627,7 +681,7 @@
           setStatus("Got it. We'll reply within one business day.", 'ok');
         }).catch(function () {
           btn.disabled = false;
-          btn.textContent = defaultLabel;
+          btn.innerHTML = defaultLabel;
           setStatus('Something went wrong. Email us at ' + CONTACT_EMAIL + '.', 'err');
         });
       } else {
@@ -639,7 +693,7 @@
         setStatus('Opening your email app...', 'ok');
         window.location.href = 'mailto:' + CONTACT_EMAIL + '?subject=' + subject + '&body=' + body;
         setTimeout(function () {
-          btn.textContent = defaultLabel;
+          btn.innerHTML = defaultLabel;
           setStatus('', '');
           if (note) note.hidden = false;
         }, 3000);

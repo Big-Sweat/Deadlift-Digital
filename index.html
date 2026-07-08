@@ -81,6 +81,8 @@
 </head>
 <body id="top">
 
+<a class="skip-link" href="#main">Skip to main content</a>
+
 <!-- Scroll progress (CSS scroll-driven; no JS) -->
 <div class="scroll-progress" aria-hidden="true"></div>
 
@@ -143,7 +145,7 @@
 </header>
 
 <!-- Mobile nav drawer -->
-<div id="mobile-nav" class="mnav">
+<div id="mobile-nav" class="mnav" role="dialog" aria-modal="true" aria-label="Menu">
   <nav class="mnav-inner" aria-label="Mobile">
     <a href="#about"><span class="rail-num">/01</span>ABOUT</a>
     <a href="#services"><span class="rail-num">/02</span>SERVICES</a>
@@ -156,7 +158,7 @@
 </div>
 
 <!-- ================= MAIN ================= -->
-<main class="page">
+<main class="page" id="main" tabindex="-1">
 
   <!-- HERO -->
   <section class="hero" aria-labelledby="hero-title">
@@ -209,8 +211,12 @@
   </section>
 
   <!-- MARQUEE -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
+  <div class="marquee">
+    <button class="marquee-pause" type="button" aria-pressed="false" aria-label="Pause scrolling banner">
+      <svg class="mp-pause" viewBox="0 0 10 12" width="10" height="12" aria-hidden="true" fill="currentColor"><rect x="1" y="1" width="3" height="10"></rect><rect x="6" y="1" width="3" height="10"></rect></svg>
+      <svg class="mp-play" viewBox="0 0 10 12" width="10" height="12" aria-hidden="true" fill="currentColor" hidden><path d="M1 1l8 5-8 5z"></path></svg>
+    </button>
+    <div class="marquee-track" aria-hidden="true">
       <span class="marquee-run">WE DO THE HEAVY LIFTING<svg class="dbell" width="30" height="12" aria-hidden="true"><use href="#i-dumbbell"></use></svg>YOU RUN YOUR BUSINESS<svg class="dbell" width="30" height="12" aria-hidden="true"><use href="#i-dumbbell"></use></svg>NO TEMPLATES<svg class="dbell" width="30" height="12" aria-hidden="true"><use href="#i-dumbbell"></use></svg>NO SURPRISES<svg class="dbell" width="30" height="12" aria-hidden="true"><use href="#i-dumbbell"></use></svg></span>
       <span class="marquee-run">WE DO THE HEAVY LIFTING<svg class="dbell" width="30" height="12" aria-hidden="true"><use href="#i-dumbbell"></use></svg>YOU RUN YOUR BUSINESS<svg class="dbell" width="30" height="12" aria-hidden="true"><use href="#i-dumbbell"></use></svg>NO TEMPLATES<svg class="dbell" width="30" height="12" aria-hidden="true"><use href="#i-dumbbell"></use></svg>NO SURPRISES<svg class="dbell" width="30" height="12" aria-hidden="true"><use href="#i-dumbbell"></use></svg></span>
     </div>
@@ -271,7 +277,7 @@
       <p class="eyebrow eyebrow-accent" data-reveal="0">/ 04 — THE WORK</p>
       <div class="work-head">
         <h2 class="h-lg" data-reveal="1" data-split>Recent builds</h2>
-        <p class="work-hint" data-reveal="2">REAL CLIENT SCREENSHOTS GO HERE →</p>
+        <p class="work-hint" data-reveal="2">REAL CLIENT SCREENSHOTS GO HERE <span aria-hidden="true">→</span></p>
       </div>
       <div class="work-track">
         <!-- TODO: replace .work-thumb placeholders with real <img> screenshots of client builds -->
@@ -350,13 +356,13 @@
           <h2 class="contact-title" data-reveal="1" data-split>GET A FREE<br>TEARDOWN OF<br>YOUR WEBSITE<span class="accent">.</span></h2>
           <p class="contact-lede" data-reveal="2">Send us your current site — or your competitor's. We'll record a 5-minute video on what's costing you customers. Free, no strings.</p>
           <div class="contact-links" data-reveal="3">
-            <a href="mailto:jake@deadliftdigital.com">→ jake@deadliftdigital.com</a>
-            <a href="mailto:jose@deadliftdigital.com">→ jose@deadliftdigital.com</a>
-            <a href="tel:5550450450">→ (555) 045-0450</a>
+            <a href="mailto:jake@deadliftdigital.com"><span aria-hidden="true">→ </span>jake@deadliftdigital.com</a>
+            <a href="mailto:jose@deadliftdigital.com"><span aria-hidden="true">→ </span>jose@deadliftdigital.com</a>
+            <a href="tel:5550450450"><span aria-hidden="true">→ </span>(555) 045-0450</a>
           </div>
         </div>
         <form id="teardown-form" class="contact-form" data-reveal="1" novalidate>
-          <div class="form-title">Request your teardown</div>
+          <h3 class="form-title">Request your teardown</h3>
           <div class="form-sub">We'll reply within one business day.</div>
           <div class="form-fields">
             <div class="field">
@@ -371,7 +377,7 @@
               <label for="form-email">EMAIL</label>
               <input id="form-email" name="email" type="email" autocomplete="email" placeholder="you@business.com" required>
             </div>
-            <button id="form-button" class="btn btn-primary form-submit" type="submit">Send my free teardown →</button>
+            <button id="form-button" class="btn btn-primary form-submit" type="submit">Send my free teardown <span aria-hidden="true">→</span></button>
             <p id="form-status" class="form-status" role="status" aria-live="polite" hidden></p>
             <p class="form-note" data-default-note>OPENS YOUR EMAIL APP — NOTHING IS STORED</p>
           </div>
@@ -387,7 +393,7 @@
           <a href="#about">ABOUT</a>
           <a href="#services">SERVICES</a>
           <a href="#work">WORK</a>
-          <a href="#top">BACK TO TOP ↑</a>
+          <a href="#top">BACK TO TOP <span aria-hidden="true">↑</span></a>
         </nav>
       </div>
     </div>
