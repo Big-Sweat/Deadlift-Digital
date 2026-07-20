@@ -24,7 +24,7 @@ index.html      All markup + inline SVGs (plate, logo, dumbbell sprite)
 styles.css      Design system, keyframes, grain overlay, responsive + reduced-motion
 main.js         Clock, click feedback, headline split, scroll reveals, 3D plate
                 (drop + spin + chalk smoke), mobile nav drawer, contact form
-fonts/          Self-hosted woff2 (Archivo Black, Space Grotesk, IBM Plex Mono)
+fonts/          Self-hosted woff2 (Archivo Black, Raleway, IBM Plex Mono)
 ```
 
 ## Brand tokens
@@ -32,7 +32,7 @@ fonts/          Self-hosted woff2 (Archivo Black, Space Grotesk, IBM Plex Mono)
 - **Plate Orange** `#e85d26` (hover `#ff6d33`, pressed `#d14e1c`)
 - **Iron Black** `#141518` · panels `#17181a` / `#1c1d21`
 - **Chalk** `#f6f4f0` (text + light sections)
-- Type: Archivo Black (display), Space Grotesk (body), IBM Plex Mono (labels)
+- Type: Archivo Black (display), Raleway (body), IBM Plex Mono (labels)
 
 ## Wiring the contact form
 

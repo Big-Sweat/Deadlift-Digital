@@ -45,7 +45,7 @@ js/chalk-gl.js      Raymarched volumetric chalk-smoke burst on plate impact, wit
                     DOM-particle fallback + frame-time watchdog. window.__ddChalkGL.
 vendor/             Pinned: three.module.min.js + three.core.min.js (r185),
                     lenis.min.js. Do not edit; loaded via importmap / <script>.
-fonts/              Self-hosted woff2: Archivo Black (display), Space Grotesk
+fonts/              Self-hosted woff2: Archivo Black (display), Raleway
                     (body), IBM Plex Mono (labels), Black Ops One (baked into
                     plate textures).
 favicon.svg, og-image.jpg (1200x630), robots.txt, sitemap.xml   SEO assets.
@@ -74,7 +74,7 @@ Single IIFE. `ready()` calls the init functions in order:
 - **Iron Black** `--iron: #141518` · panels `#17181a` / `#1c1d21`
 - **Chalk** `--chalk: #f6f4f0` (text + light sections)
 - Rail width `224px`
-- Type: Archivo Black (display), Space Grotesk (body), IBM Plex Mono (labels)
+- Type: Archivo Black (display), Raleway (body), IBM Plex Mono (labels)
 
 ## Interactions / motion
 

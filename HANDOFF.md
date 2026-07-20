@@ -17,7 +17,7 @@ Marketing landing site for **Deadlift Digital**, a two-person web studio (founde
 - `js/plate-gl.js` — **PBR three.js hero plate** (built by a collaborator via merged PR #1). Mounts to `#plate-gl` (desktop) / `#plate-inline` (mobile).
 - `js/chalk-gl.js` — **raymarched volumetric chalk-smoke** GL burst on plate impact, with DOM-particle fallback + frame-time watchdog.
 - `vendor/` — pinned `three.module.min.js` + `three.core.min.js` (r185), `lenis.min.js`. Loaded via importmap (`"three"`).
-- `fonts/` — self-hosted woff2: Archivo Black (display), Space Grotesk (body), IBM Plex Mono (labels), Black Ops One (baked into plate textures).
+- `fonts/` — self-hosted woff2: Archivo Black (display), Raleway (body), IBM Plex Mono (labels), Black Ops One (baked into plate textures).
 - SEO files: `favicon.svg`, `og-image.jpg` (1200x630), `robots.txt`, `sitemap.xml`.
 - `claude-code-handoff/` — original design references (read-only source of truth).
 - `graphify-out/` — knowledge graph (234 nodes, 21 communities).
