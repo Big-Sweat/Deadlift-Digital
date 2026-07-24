@@ -9,8 +9,9 @@ Marketing landing site for **Deadlift Digital** — a two-person web studio
 in 14 days. Tagline: *"Websites that pull weight."* Heavy-industrial / gym-floor
 aesthetic.
 
-It is a **dependency-free static site**: plain HTML/CSS/JS with pinned vendored
-libraries. **There is no build step, no bundler, no `package.json`, no test
+A static HTML/CSS/JavaScript site with locally vendored, version-pinned third-party 
+libraries and no package-manager-managed dependencies. 
+**There is no build step, no bundler, no `package.json`, no test
 suite.** Editing a file and reloading the browser is the entire dev loop.
 
 - **Repo:** github.com/Big-Sweat/Deadlift-Digital
